@@ -1,0 +1,1669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>StockHub Ethiopia | Inventory Management for Ethiopian Businesses</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Ethiopic:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --green:#0b7a4b; --green-dark:#075a37; --green-soft:#e6f4ec;
+  --yellow:#f5b800; --red:#d62f2f; --blue:#2563eb;
+  --ink:#0f1f17; --muted:#5b6b62; --line:#e3e9e5; --bg:#ffffff; --bg-alt:#f6f9f7;
+  --radius:14px; --shadow:0 10px 30px rgba(15,31,23,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter','Noto Sans Ethiopic',system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6}
+a{color:inherit;text-decoration:none}
+.container{width:min(1120px,100% - 32px);margin-inline:auto}
+section{padding:84px 0}
+.alt{background:var(--bg-alt)}
+h1,h2,h3{line-height:1.15;letter-spacing:-.02em}
+h2{font-size:clamp(28px,4vw,40px);margin-bottom:12px}
+.eyebrow{display:inline-block;font-size:13px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
+.lead{color:var(--muted);font-size:18px;max-width:640px}
+.center{text-align:center}.center .lead{margin-inline:auto}
+.btn{display:inline-block;padding:13px 24px;border-radius:10px;font-weight:600;font-size:15px;border:2px solid transparent;cursor:pointer;transition:.2s}
+.btn-primary{background:var(--green);color:#fff}.btn-primary:hover{background:var(--green-dark)}
+.btn-ghost{border-color:var(--line);background:#fff}.btn-ghost:hover{border-color:var(--green);color:var(--green)}
+
+/* nav */
+header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:68px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px}
+.logo-mark{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--green),var(--green-dark));display:grid;place-items:center;color:#fff;font-size:17px}
+.nav ul{display:flex;gap:28px;list-style:none;font-size:14.5px;font-weight:500;color:var(--muted)}
+.nav ul a:hover{color:var(--green)}
+.nav-right{display:flex;gap:10px;align-items:center}
+.lang{font-size:13px;font-weight:600;border:1px solid var(--line);border-radius:8px;padding:6px 10px;background:#fff}
+@media(max-width:860px){.nav ul{display:none}}
+
+/* hero */
+.hero{padding:72px 0 40px;background:radial-gradient(1000px 400px at 85% -10%,var(--green-soft),transparent),#fff}
+.hero-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:48px;align-items:center}
+.hero h1{font-size:clamp(34px,5.4vw,58px);font-weight:800;margin-bottom:18px}
+.hero h1 span{color:var(--green)}
+.hero p{font-size:18px;color:var(--muted);margin-bottom:28px;max-width:540px}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:28px}
+.badges{display:flex;gap:10px;flex-wrap:wrap}
+.badge{font-size:13px;font-weight:600;background:#fff;border:1px solid var(--line);padding:6px 12px;border-radius:999px}
+.flagbar{height:5px;background:linear-gradient(90deg,var(--green) 33%,var(--yellow) 33% 66%,var(--red) 66%)}
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr}}
+
+/* dashboard mock */
+.app{background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);overflow:hidden;font-size:13px}
+.app-top{display:flex;align-items:center;gap:6px;padding:10px 14px;background:#f1f4f2;border-bottom:1px solid var(--line)}
+.dot{width:10px;height:10px;border-radius:50%}
+.app-body{display:grid;grid-template-columns:150px 1fr}
+.side{background:#0d2a1d;color:#cfe3d8;padding:16px 10px;min-height:100%}
+.side .brand{color:#fff;font-weight:700;margin:0 8px 16px}
+.side div.item{padding:8px 10px;border-radius:8px;margin-bottom:3px;font-size:12.5px}
+.side .item.on{background:rgba(255,255,255,.12);color:#fff}
+.main{padding:16px}
+.main h4{font-size:15px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
+.main h4 small{font-weight:500;color:var(--muted)}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.kpi{border:1px solid var(--line);border-radius:10px;padding:10px}
+.kpi b{display:block;font-size:19px}
+.kpi span{color:var(--muted);font-size:11.5px}
+.up{color:var(--green);font-weight:600;font-size:11px}.down{color:var(--red);font-weight:600;font-size:11px}
+.chart{border:1px solid var(--line);border-radius:10px;padding:10px;margin-bottom:14px}
+.bars{display:flex;align-items:flex-end;gap:8px;height:90px;margin-top:8px}
+.bars i{flex:1;background:linear-gradient(var(--green),#35a974);border-radius:4px 4px 0 0;display:block}
+.bars i.b2{background:linear-gradient(var(--yellow),#f8d35a)}
+.axis{display:flex;gap:8px;font-size:10px;color:var(--muted);margin-top:4px}.axis span{flex:1;text-align:center}
+table{width:100%;border-collapse:collapse}
+th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);font-size:12px}
+th{color:var(--muted);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.04em}
+.tag{padding:2px 8px;border-radius:999px;font-size:11px;font-weight:600}
+.t-red{background:#fde8e8;color:var(--red)}.t-yel{background:#fff4cc;color:#8a6500}.t-grn{background:var(--green-soft);color:var(--green)}
+@media(max-width:560px){.app-body{grid-template-columns:1fr}.side{display:none}}
+
+/* problem */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:18px;margin-top:40px}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:24px;transition:.2s}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.ico{width:44px;height:44px;border-radius:11px;background:var(--green-soft);display:grid;place-items:center;font-size:21px;margin-bottom:14px}
+.card h3{font-size:17px;margin-bottom:6px}
+.card p{color:var(--muted);font-size:14.5px}
+.problem .ico{background:#fde8e8}
+
+/* features */
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin-top:40px}
+
+/* mobile */
+.mobile-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.phones{display:flex;gap:20px;justify-content:center}
+.phone{width:200px;background:#0d1511;border-radius:30px;padding:9px;box-shadow:var(--shadow)}
+.phone:nth-child(2){margin-top:34px}
+.screen{background:#fff;border-radius:23px;padding:14px 12px;min-height:380px;font-size:12px}
+.screen h5{font-size:13px;margin-bottom:10px}
+.scan{height:120px;border-radius:12px;background:#0d1511;position:relative;margin-bottom:12px;display:grid;place-items:center;color:#9bd8b9;font-size:11px}
+.scan::after{content:"";position:absolute;left:12%;right:12%;top:50%;height:2px;background:var(--red);box-shadow:0 0 8px var(--red)}
+.row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--line)}
+.mbtn{background:var(--green);color:#fff;text-align:center;padding:9px;border-radius:8px;font-weight:600;margin-top:12px}
+.check{display:flex;flex-direction:column;gap:7px;margin-top:6px}
+.check div{border:1px solid var(--line);border-radius:8px;padding:8px}
+.list{list-style:none;margin-top:20px;display:grid;gap:10px}
+.list li{display:flex;gap:10px;font-size:15.5px}
+.list li::before{content:"✓";color:#fff;background:var(--green);width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-size:12px;flex:none;margin-top:3px}
+@media(max-width:900px){.mobile-grid{grid-template-columns:1fr}}
+
+/* industries */
+.chips{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:34px}
+.chip{background:#fff;border:1px solid var(--line);padding:12px 20px;border-radius:999px;font-weight:600;font-size:15px}
+
+/* local */
+.local{background:var(--green-dark);color:#fff}
+.local .eyebrow{color:var(--yellow)}
+.local .lead{color:#bfe0cf}
+.local .card{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.15)}
+.local .card p{color:#bfe0cf}
+.local .ico{background:rgba(255,255,255,.14)}
+
+/* pricing */
+.toggle{display:inline-flex;background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px;margin:26px 0 34px}
+.toggle button{border:0;background:none;padding:9px 22px;border-radius:999px;font-weight:600;font-size:14px;cursor:pointer;font-family:inherit;color:var(--muted)}
+.toggle button.on{background:var(--green);color:#fff}
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;max-width:960px;margin-inline:auto;text-align:left}
+.plan{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:30px}
+.plan.pop{border:2px solid var(--green);box-shadow:var(--shadow);position:relative}
+.plan.pop::before{content:"Most popular";position:absolute;top:-13px;left:24px;background:var(--green);color:#fff;font-size:12px;font-weight:700;padding:3px 12px;border-radius:999px}
+.plan h3{font-size:18px}
+.price{font-size:36px;font-weight:800;margin:10px 0 2px}.price small{font-size:14px;color:var(--muted);font-weight:500}
+.plan ul{list-style:none;margin:18px 0 24px;display:grid;gap:8px;font-size:14.5px;color:var(--muted)}
+.plan li::before{content:"✓ ";color:var(--green);font-weight:700}
+.plan .btn{width:100%;text-align:center}
+.hidden{display:none}
+.note{color:var(--muted);font-size:14px;margin-top:22px}
+
+/* timeline */
+.timeline{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;margin-top:40px;counter-reset:s}
+.step{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:24px;position:relative}
+.step::before{counter-increment:s;content:counter(s);width:32px;height:32px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-weight:700;margin-bottom:12px}
+.step .when{font-size:12.5px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.05em}
+.step h3{font-size:17px;margin:4px 0 6px}
+.step p{font-size:14.5px;color:var(--muted)}
+
+/* cta */
+.cta{background:linear-gradient(135deg,var(--green),var(--green-dark));color:#fff;border-radius:22px;padding:56px 32px;text-align:center}
+.cta p{color:#d3ece0;max-width:560px;margin:12px auto 26px;font-size:17px}
+.cta .btn-primary{background:#fff;color:var(--green-dark)}
+.cta .btn-ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.5)}
+form.demo{display:grid;gap:10px;max-width:440px;margin:0 auto 14px}
+form.demo input,form.demo select{padding:13px 14px;border-radius:10px;border:0;font:inherit}
+
+footer{padding:36px 0;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+.foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+/* ===== Inventory dashboard (live demo) ===== */
+.dm{margin-top:36px;background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);overflow:hidden;text-align:left}
+.dm-bar{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--line);background:#f8faf9}
+.dm-tabs{display:flex;gap:6px}
+.dm-tabs button{border:0;background:none;padding:9px 16px;border-radius:9px;font:inherit;font-weight:600;font-size:14px;color:var(--muted);cursor:pointer}
+.dm-tabs button.on{background:var(--green-soft);color:var(--green-dark)}
+.dm-actions{display:flex;gap:8px}
+.sbtn{border:1px solid var(--line);background:#fff;padding:8px 14px;border-radius:9px;font:inherit;font-size:13.5px;font-weight:600;cursor:pointer;transition:.15s}
+.sbtn:hover{border-color:var(--green);color:var(--green)}
+.sbtn.primary{background:var(--green);border-color:var(--green);color:#fff}.sbtn.primary:hover{background:var(--green-dark);color:#fff}
+.sbtn.danger:hover{border-color:var(--red);color:var(--red)}
+.count{display:inline-block;min-width:20px;padding:0 6px;border-radius:999px;background:var(--red);color:#fff;font-size:11.5px;text-align:center;margin-left:4px}
+.dm-body{padding:18px}
+.dm-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.dm-kpis .kpi{padding:14px}.dm-kpis .kpi b{font-size:22px}
+.dm-tools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.in{padding:9px 12px;border:1px solid var(--line);border-radius:9px;font:inherit;font-size:14px;background:#fff;color:var(--ink)}
+.in:focus{outline:2px solid var(--green-soft);border-color:var(--green)}
+#fSearch{flex:1;min-width:180px}
+.dm-layout{display:grid;grid-template-columns:1fr 250px;gap:18px;align-items:start}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+.tbl-wrap table{min-width:900px}
+.tbl-wrap th{background:#f8faf9;white-space:nowrap}
+.tbl-wrap td{vertical-align:middle;font-size:13px}
+.qty{display:inline-flex;align-items:center;gap:6px}
+.qty button{width:24px;height:24px;border-radius:7px;border:1px solid var(--line);background:#fff;cursor:pointer;font-weight:700;line-height:1}
+.qty button:hover{border-color:var(--green);color:var(--green)}
+.qty b{min-width:34px;text-align:center}
+.rowact{display:flex;gap:6px}
+.rowact button{border:1px solid var(--line);background:#fff;border-radius:7px;padding:4px 9px;font:inherit;font-size:12px;cursor:pointer}
+.rowact button:hover{border-color:var(--green);color:var(--green)}
+.rowact button.del:hover{border-color:var(--red);color:var(--red)}
+.empty{padding:34px;text-align:center;color:var(--muted)}
+.dm-log{border:1px solid var(--line);border-radius:12px;padding:14px}
+.dm-log h4{font-size:14px;margin-bottom:10px}
+.dm-log ul{list-style:none;display:grid;gap:10px}
+.dm-log li{font-size:12.5px;color:var(--muted);border-left:3px solid var(--green);padding-left:9px}
+.dm-log li b{display:block;color:var(--ink);font-size:11.5px}
+.alert-row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px}
+.alert-row small{color:var(--muted);display:block}
+.modal-back{position:fixed;inset:0;background:rgba(10,20,15,.5);display:none;align-items:center;justify-content:center;z-index:50;padding:16px}
+.modal-back.open{display:flex}
+.modal{background:#fff;border-radius:16px;padding:26px;width:min(520px,100%);max-height:92vh;overflow:auto}
+.modal h3{margin-bottom:16px}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fgrid label{display:grid;gap:4px;font-size:12.5px;font-weight:600;color:var(--muted)}
+.fgrid label.full{grid-column:1/-1}
+.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}
+.toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,20px);background:#0f1f17;color:#fff;padding:11px 18px;border-radius:10px;font-size:14px;opacity:0;pointer-events:none;transition:.25s;z-index:60}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:900px){.dm-layout{grid-template-columns:1fr}.dm-kpis{grid-template-columns:repeat(2,1fr)}}
+/* ===== Extra demo features ===== */
+.dm-tabs{overflow-x:auto;max-width:100%}
+.dm-tabs button{white-space:nowrap}
+.dm-sub{display:flex;gap:18px;flex-wrap:wrap;align-items:center;padding:10px 18px;border-bottom:1px solid var(--line);font-size:13px;color:var(--muted)}
+.dm-sub label{display:flex;align-items:center;gap:8px;font-weight:600}
+.dm-sub .in{padding:6px 10px;font-size:13px}
+.switch input{width:36px;height:20px;appearance:none;-webkit-appearance:none;background:#cdd6d1;border-radius:999px;position:relative;cursor:pointer;transition:.2s}
+.switch input::after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:.2s}
+.switch input:checked{background:var(--green)}
+.switch input:checked::after{transform:translateX(16px)}
+.sync{font-weight:600;font-size:12.5px;padding:4px 10px;border-radius:999px;background:var(--green-soft);color:var(--green-dark)}
+.sync.off{background:#fff4cc;color:#8a6500}
+.offline-banner{background:#fff9e0;border-bottom:1px solid #f1dd8a;color:#6b5200;padding:10px 18px;font-size:13.5px}
+.locked{opacity:.4;cursor:not-allowed!important}
+.panel{border:1px solid var(--line);border-radius:12px;padding:18px}
+.panel h4,.vh{font-size:15px;margin-bottom:12px}
+.vh small{font-weight:500;color:var(--muted);margin-left:8px;font-size:12.5px}
+.week{display:grid;grid-template-columns:repeat(7,minmax(135px,1fr));gap:10px;overflow-x:auto;padding-bottom:4px}
+.day{border:1px solid var(--line);border-radius:12px;padding:10px;min-height:150px;background:#fff}
+.day.today{border-color:var(--green);box-shadow:0 0 0 2px var(--green-soft)}
+.day h5{font-size:12.5px;margin-bottom:8px;color:var(--muted)}
+.day.today h5{color:var(--green-dark)}
+.ev{border-radius:8px;padding:7px 8px;font-size:12px;margin-bottom:6px;line-height:1.35}
+.ev.in{background:var(--green-soft);border-left:3px solid var(--green)}
+.ev.out{background:#fff4cc;border-left:3px solid var(--yellow)}
+.ev small{color:var(--muted)}
+.ev-empty{font-size:12px;color:#9aa8a0}
+.shift{border:0;border-radius:7px;padding:5px 12px;font:inherit;font-size:12px;font-weight:700;cursor:pointer;min-width:46px}
+.shift.AM{background:var(--green-soft);color:var(--green-dark)}
+.shift.PM{background:#fff4cc;color:#8a6500}
+.shift.Off{background:#eef1ef;color:#7b8a82}
+.rep-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.rep{border:1px solid var(--line);border-radius:12px;padding:16px}
+.rep h4{font-size:14px;margin-bottom:12px}
+.bar-row{display:grid;grid-template-columns:120px 1fr 64px;gap:10px;align-items:center;font-size:12.5px;margin-bottom:9px}
+.bar-row span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar-row b{text-align:right}
+.bar{height:12px;background:#eef3f0;border-radius:6px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--green);border-radius:6px}
+.bar i.y{background:var(--yellow)}
+.bar i.r{background:var(--red)}
+.tag-gray{background:#eef1ef;color:#5b6b62}
+.pallet{border:3px solid #0f1f17;border-radius:10px;padding:14px;background:#fff}
+.pl-top{display:flex;justify-content:space-between;font-size:12px;letter-spacing:.06em;margin-bottom:8px;font-weight:700}
+.pl-name{font-size:20px;font-weight:800;margin-bottom:10px;line-height:1.2}
+.pl-sku{text-align:center;font-family:monospace;letter-spacing:.12em;margin:6px 0 10px}
+.pl-row{display:flex;justify-content:space-between;font-size:13px}
+.hint{font-size:12px;color:var(--muted);margin-top:12px}
+.sel-role{font-weight:600}
+/* ===== Round 2: scan, operations, stock count ===== */
+.dock-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.dock{border:1px solid var(--line);border-radius:12px;padding:14px;background:#fff;display:grid;gap:6px;align-content:start}
+.dock.busy{border-color:var(--green);background:#fbfefc}
+.dock h5{font-size:14px}
+.dk-plate{font-family:monospace;font-size:16px;font-weight:700}
+.dock small{color:var(--muted)}
+.dock .sbtn{margin-top:4px;font-size:12px}
+.prod{border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:10px}
+.prod-top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:2px}
+.prod small{color:var(--muted);display:block;margin-bottom:8px}
+.prod-bot{display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-size:13px}
+.chips-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.chip-btn{border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 12px;font-size:12.5px;font-family:monospace;cursor:pointer}
+.chip-btn:hover{border-color:var(--green);color:var(--green)}
+.var-pos{color:var(--green);font-weight:700}
+.var-neg{color:var(--red);font-weight:700}
+.panel h4 small{font-weight:500;color:var(--muted);font-size:12.5px;margin-left:6px}
+textarea.in{resize:vertical;font-family:inherit}
+.dm-log li .sbtn{margin-top:6px;padding:4px 10px;font-size:12px}
+/* ===== Round 3 ===== */
+th[data-sort]{cursor:pointer;user-select:none}th[data-sort]:hover{color:var(--green)}
+th.asc::after{content:" ▲";font-size:9px}th.desc::after{content:" ▼";font-size:9px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <a href="#top" class="logo"><span class="logo-mark">▦</span> StockHub Ethiopia</a>
+    <ul>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#dashboard">Live demo</a></li>
+      <li><a href="#mobile">Mobile</a></li>
+      <li><a href="#industries">Industries</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#rollout">Rollout</a></li>
+    </ul>
+    <div class="nav-right">
+      <span class="lang">EN · አማ · Oromoo</span>
+      <a href="#demo" class="btn btn-primary" style="padding:9px 18px">Book a demo</a>
+    </div>
+  </div>
+</header>
+<div class="flagbar"></div>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="container hero-grid">
+    <div>
+      <span class="eyebrow">Inventory management · Built for Ethiopia</span>
+      <h1>Know exactly what you have, <span>in every branch, in real time.</span></h1>
+      <p>A cloud-based inventory platform in Amharic, Afaan Oromoo and English. Works offline, prices in ETB, and fits Ethiopian tax and business practice.</p>
+      <div class="hero-cta">
+        <a href="#demo" class="btn btn-primary">Request a free trial</a>
+        <a href="#dashboard" class="btn btn-ghost">Try the live dashboard</a>
+        <a href="#pricing" class="btn btn-ghost">See pricing in ETB</a>
+      </div>
+      <div class="badges">
+        <span class="badge">📴 Offline mode</span>
+        <span class="badge">🇪🇹 Local support</span>
+        <span class="badge">🏷️ Barcode &amp; QR</span>
+        <span class="badge">🏬 Multi-branch</span>
+      </div>
+    </div>
+
+    <!-- Dashboard preview -->
+    <div class="app" aria-label="Dashboard preview">
+      <div class="app-top"><i class="dot" style="background:#ff5f57"></i><i class="dot" style="background:#febc2e"></i><i class="dot" style="background:#28c840"></i></div>
+      <div class="app-body">
+        <div class="side">
+          <div class="brand">StockHub</div>
+          <div class="item on">▦ ዳሽቦርድ · Dashboard</div>
+          <div class="item">📦 ክምችት · Inventory</div>
+          <div class="item">⬇ Inbound</div>
+          <div class="item">⬆ Outbound</div>
+          <div class="item">🏬 Warehouses</div>
+          <div class="item">📅 Scheduler</div>
+          <div class="item">📊 Reports</div>
+          <div class="item">⚙ Users</div>
+        </div>
+        <div class="main">
+          <h4>Overview <small>Bole Warehouse · Today</small></h4>
+          <div class="kpis">
+            <div class="kpi"><span>Stock value</span><b>ETB 4.82M</b><em class="up">▲ 6.2%</em></div>
+            <div class="kpi"><span>Open orders</span><b>128</b><em class="up">▲ 14 new</em></div>
+            <div class="kpi"><span>Low-stock items</span><b>17</b><em class="down">▲ 5 today</em></div>
+          </div>
+          <div class="chart">
+            <strong style="font-size:12.5px">Inbound vs outbound (units)</strong>
+            <div class="bars">
+              <i style="height:55%"></i><i class="b2" style="height:40%"></i>
+              <i style="height:70%"></i><i class="b2" style="height:62%"></i>
+              <i style="height:48%"></i><i class="b2" style="height:75%"></i>
+              <i style="height:88%"></i><i class="b2" style="height:58%"></i>
+            </div>
+            <div class="axis"><span>Mon</span><span></span><span>Tue</span><span></span><span>Wed</span><span></span><span>Thu</span><span></span></div>
+          </div>
+          <table>
+            <tr><th>Item</th><th>Branch</th><th>Qty</th><th>Status</th></tr>
+            <tr><td>Sunflower oil 5L</td><td>Merkato</td><td>12</td><td><span class="tag t-red">Low stock</span></td></tr>
+            <tr><td>Paracetamol 500mg</td><td>Bole</td><td>340</td><td><span class="tag t-yel">Expires in 30d</span></td></tr>
+            <tr><td>Teff flour 25kg</td><td>Piassa</td><td>860</td><td><span class="tag t-grn">In stock</span></td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem">
+  <div class="container center">
+    <span class="eyebrow">The problem</span>
+    <h2>Stock problems quietly drain your profit</h2>
+    <p class="lead">Many Ethiopian retailers, wholesalers and manufacturers still run on paper, spreadsheets or tools built for other markets.</p>
+    <div class="cards">
+      <div class="card"><div class="ico">📝</div><h3>Manual tracking</h3><p>Paper and outdated methods lead to errors and lost records.</p></div>
+      <div class="card"><div class="ico">👁️</div><h3>No live visibility</h3><p>You find out about shortages after customers are already turned away.</p></div>
+      <div class="card"><div class="ico">📉</div><h3>Stockouts &amp; overstock</h3><p>Cash is tied up in slow movers while best-sellers run out.</p></div>
+      <div class="card"><div class="ico">🔌</div><h3>Disconnected systems</h3><p>Limited links between inventory, sales and accounting.</p></div>
+      <div class="card"><div class="ico">🌍</div><h3>No local fit</h3><p>Foreign tools lack Amharic, ETB pricing and local support.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="alt" id="features">
+  <div class="container center">
+    <span class="eyebrow">Features</span>
+    <h2>Everything your warehouse and shop floor need</h2>
+    <p class="lead">From the first barcode scan to the monthly report, in one platform.</p>
+    <div class="feat-grid">
+      <div class="card"><div class="ico">⚡</div><h3>Real-time tracking</h3><p>See live stock levels across every branch and warehouse.</p></div>
+      <div class="card"><div class="ico">🏷️</div><h3>Barcode &amp; QR support</h3><p>Scan, label and look up items in seconds. Print pallet tags and shipment plaques with barcodes.</p></div>
+      <div class="card"><div class="ico">🏬</div><h3>Multi-branch management</h3><p>Manage warehouses, shops and transfers from one account.</p></div>
+      <div class="card"><div class="ico">🧾</div><h3>Purchase &amp; sales orders</h3><p>Inbound and outbound order processing, start to finish.</p></div>
+      <div class="card"><div class="ico">🔔</div><h3>Smart alerts</h3><p>Low-stock and expiry-date warnings before they cost you money.</p></div>
+      <div class="card"><div class="ico">📊</div><h3>Reports &amp; analytics</h3><p>Dynamic dashboards that highlight the numbers that matter.</p></div>
+      <div class="card"><div class="ico">📴</div><h3>Offline mode</h3><p>Keep working when the connection drops; data syncs when you're back online.</p></div>
+      <div class="card"><div class="ico">🔐</div><h3>Roles &amp; permissions</h3><p>Control who can view, edit or approve. One-click login with multiple sign-in options.</p></div>
+      <div class="card"><div class="ico">📅</div><h3>Scheduling</h3><p>Order calendar for inbound/outbound shipments plus an employee work scheduler.</p></div>
+      <div class="card"><div class="ico">🚪</div><h3>Operations monitoring</h3><p>Production timeline and door activity monitoring at a glance.</p></div>
+      <div class="card"><div class="ico">🗣️</div><h3>Amharic, Oromiffa &amp; English</h3><p>Your team works in the language they're most comfortable with.</p></div>
+      <div class="card"><div class="ico">🔗</div><h3>Optional integrations</h3><p>POS, accounting sync, e-commerce, and custom modules.</p></div>
+      <div class="card"><div class="ico">🕘</div><h3>Audit trail</h3><p>Every change is logged with time and user role, searchable and exportable.</p></div>
+      <div class="card"><div class="ico">🤝</div><h3>Contacts &amp; auto-reorder</h3><p>Keep suppliers and customers in one place and draft purchase orders from low-stock alerts in one click.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- INVENTORY DASHBOARD (LIVE DEMO) -->
+<section class="alt" id="dashboard">
+  <div class="container">
+    <div class="center">
+      <span class="eyebrow">Live demo · ዳሽቦርድ</span>
+      <h2>Try the inventory platform</h2>
+      <p class="lead">A working demo with sample data. Manage stock, process orders, transfer between branches, plan shipments, switch user roles, language and offline mode. Changes reset when you refresh the page.</p>
+    </div>
+
+    <div class="dm">
+      <div class="dm-bar">
+        <div class="dm-tabs" id="dmTabs">
+          <button class="on" data-view="inv">📦 <span data-i18n="tInv">Inventory</span></button>
+          <button data-view="alerts">🔔 <span data-i18n="tAlerts">Alerts</span> <span class="count" id="alertCount">0</span></button>
+          <button data-view="orders">🧾 <span data-i18n="tOrders">Orders</span></button>
+          <button data-view="transfers">🔁 <span data-i18n="tTransfers">Transfers</span></button>
+          <button data-view="sched">📅 <span data-i18n="tSched">Schedule</span></button>
+          <button data-view="reports">📊 <span data-i18n="tReports">Reports</span></button>
+          <button data-view="users">👥 <span data-i18n="tUsers">Users</span></button>
+          <button data-view="scan">📷 <span data-i18n="tScan">Scan</span></button>
+          <button data-view="ops">🚚 <span data-i18n="tOps">Operations</span></button>
+          <button data-view="count">🧮 <span data-i18n="tCount">Stock count</span></button>
+          <button data-view="sup">🤝 <span data-i18n="tSup">Contacts</span></button>
+          <button data-view="hist">🕘 <span data-i18n="tHist">History</span></button>
+        </div>
+        <div class="dm-actions">
+          <button class="sbtn" id="impBtn" data-perm="add">⬆ Import CSV</button><input type="file" id="impFile" accept=".csv,text/csv" class="hidden">
+          <button class="sbtn" id="exportBtn">⬇ <span data-i18n="export">Export CSV</span></button>
+          <button class="sbtn primary" id="addBtn" data-perm="add">+ <span data-i18n="addItem">Add item</span></button>
+        </div>
+      </div>
+
+      <div class="dm-sub">
+        <label>👤 <span data-i18n="role">Viewing as</span>
+          <select class="in" id="roleSel"><option>Admin</option><option>Manager</option><option>Clerk</option><option>Viewer</option></select>
+        </label>
+        <label>🌐
+          <select class="in" id="langSel"><option value="en">English</option><option value="am">አማርኛ</option><option value="om">Afaan Oromoo</option></select>
+        </label>
+        <label class="switch"><input type="checkbox" id="offSw"> <span data-i18n="offline">Offline mode</span></label>
+        <span class="sync" id="syncBadge">● Online · synced</span>
+      </div>
+      <div class="offline-banner hidden" id="offBanner">📴 You're working offline. Changes are saved on this device and sync automatically when the connection returns.</div>
+
+      <div class="dm-body">
+        <div class="dm-kpis">
+          <div class="kpi"><span data-i18n="kSku">Items (SKUs)</span><b id="kSku">0</b></div>
+          <div class="kpi"><span data-i18n="kVal">Stock value</span><b id="kVal">ETB 0</b></div>
+          <div class="kpi"><span data-i18n="kLow">Low / out of stock</span><b id="kLow" style="color:var(--red)">0</b></div>
+          <div class="kpi"><span data-i18n="kExp">Expiring ≤ 30 days</span><b id="kExp" style="color:#8a6500">0</b></div>
+        </div>
+
+        <!-- Inventory -->
+        <div id="viewInv">
+          <div class="dm-tools">
+            <input class="in" id="fSearch" type="search" placeholder="Search by item name or SKU…" data-i18n-ph="search">
+            <select class="in" id="fBr"><option value="" data-i18n="allBr">All branches</option></select>
+            <select class="in" id="fCat"><option value="" data-i18n="allCat">All categories</option></select>
+            <select class="in" id="fStatus">
+              <option value="" data-i18n="allStatus">All statuses</option>
+              <option value="ok">In stock</option>
+              <option value="low">Low stock</option>
+              <option value="out">Out of stock</option>
+              <option value="exp">Expiring / expired</option>
+            </select>
+          </div>
+          <div class="dm-layout">
+            <div class="tbl-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th data-sort="sku" data-i18n="hSku">SKU</th><th data-sort="name" data-i18n="hItem">Item</th><th data-sort="cat" data-i18n="hCat">Category</th><th data-sort="br" data-i18n="hBr">Branch</th>
+                    <th data-sort="qty" data-i18n="hQty">Quantity</th><th data-sort="re" data-i18n="hRe">Reorder at</th><th data-sort="price" data-i18n="hPrice">Unit price</th>
+                    <th data-sort="exp" data-i18n="hExp">Expiry</th><th data-i18n="hStatus">Status</th><th></th>
+                  </tr>
+                </thead>
+                <tbody id="invBody"></tbody>
+              </table>
+              <div id="emptyMsg" class="empty hidden">No items match your filters.</div>
+            </div>
+            <aside class="dm-log">
+              <h4 data-i18n="activity">Recent activity</h4>
+              <ul id="logList"></ul>
+            </aside>
+          </div>
+        </div>
+
+        <!-- Alerts -->
+        <div id="viewAlerts" class="hidden"><div id="alertList"></div></div>
+
+        <!-- Orders -->
+        <div id="viewOrders" class="hidden">
+          <div class="dm-tools">
+            <select class="in" id="oFilter">
+              <option value="">All orders</option>
+              <option value="in">Inbound (purchase)</option>
+              <option value="out">Outbound (sales)</option>
+            </select>
+            <select class="in" id="oStatus">
+              <option value="">Any status</option>
+              <option>Pending</option>
+              <option>Done</option>
+            </select>
+            <span style="flex:1"></span>
+            <button class="sbtn primary" id="newOrderBtn" data-perm="orders">+ New order</button>
+          </div>
+          <div class="tbl-wrap">
+            <table style="min-width:860px">
+              <thead><tr><th>Order</th><th>Type</th><th>Supplier / customer</th><th>Item</th><th>Qty</th><th>Total incl. VAT</th><th>Date</th><th>Dock</th><th>Status</th><th></th></tr></thead>
+              <tbody id="ordBody"></tbody>
+            </table>
+            <div id="ordEmpty" class="empty hidden">No orders match.</div>
+          </div>
+        </div>
+
+        <!-- Transfers -->
+        <div id="viewTransfers" class="hidden">
+          <div class="dm-layout">
+            <div class="panel">
+              <h4>Move stock between branches</h4>
+              <div class="fgrid">
+                <label class="full">Item (from)<select class="in" id="tItem"></select></label>
+                <label>To branch<select class="in" id="tTo"></select></label>
+                <label>Quantity<input class="in" id="tQty" type="number" min="1" value="10"></label>
+              </div>
+              <div class="modal-actions"><button class="sbtn primary" id="tBtn" data-perm="transfer">Transfer stock</button></div>
+              <p class="hint">If the destination branch already stocks the item, quantities are merged. Otherwise a new line is created there.</p>
+            </div>
+            <aside class="dm-log">
+              <h4>Transfer history</h4>
+              <ul id="tLog"></ul>
+            </aside>
+          </div>
+        </div>
+
+        <!-- Scheduler -->
+        <div id="viewSched" class="hidden">
+          <h4 class="vh">Shipment calendar <small>inbound and outbound orders for the next 7 days</small></h4>
+          <div class="week" id="weekGrid"></div>
+          <h4 class="vh" style="margin-top:24px">Staff roster <small>click a shift to change it</small></h4>
+          <div class="tbl-wrap"><table id="roster" style="min-width:640px"></table></div>
+        </div>
+
+        <!-- Reports -->
+        <div id="viewReports" class="hidden"><div class="rep-grid" id="repGrid"></div></div>
+
+        <!-- Scan -->
+        <div id="viewScan" class="hidden">
+          <div class="dm-layout">
+            <div class="panel">
+              <h4>Scanner lookup <small>type a SKU or use a USB / RF scanner, then press Enter</small></h4>
+              <div class="dm-tools" style="margin-bottom:10px">
+                <input class="in" id="scanIn" placeholder="Scan or type SKU, e.g. FD-1001" autocomplete="off">
+                <button class="sbtn primary" id="scanBtn">Look up</button>
+                <label style="display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--muted)">Qty <input class="in" id="scanQty" type="number" min="1" value="1" style="width:80px"></label>
+              </div>
+              <div class="chips-row" id="scanChips"></div>
+              <div id="scanRes"></div>
+            </div>
+            <aside class="dm-log"><h4>Scan history</h4><ul id="scanLog"></ul></aside>
+          </div>
+        </div>
+
+        <!-- Operations -->
+        <div id="viewOps" class="hidden">
+          <h4 class="vh">Dock door activity <small>live status of loading doors</small></h4>
+          <div class="dock-grid" id="dockGrid"></div>
+          <div class="dm-layout" style="margin-top:22px">
+            <div class="panel">
+              <h4>Driver check-in</h4>
+              <div class="fgrid">
+                <label>Truck plate<input class="in" id="kPlate" placeholder="e.g. AA-3-12345"></label>
+                <label>Driver name<input class="in" id="kDriver" placeholder="e.g. Abebe T."></label>
+                <label>Dock door<select class="in" id="kDoor"></select></label>
+                <label>Direction<select class="in" id="kType"><option value="in">Inbound delivery</option><option value="out">Outbound pickup</option></select></label>
+              </div>
+              <div class="modal-actions"><button class="sbtn primary" id="kBtn" data-perm="dock">Check in driver</button></div>
+              <h4 style="margin-top:22px">Report an incident</h4>
+              <div class="fgrid">
+                <label>Dock door<select class="in" id="iDoor"><option>1</option><option>2</option><option>3</option><option>4</option></select></label>
+                <label>Type<select class="in" id="iType"><option>Damaged goods</option><option>Safety incident</option><option>Vehicle issue</option><option>Documentation error</option><option>Other</option></select></label>
+                <label class="full">Details<textarea class="in" id="iDesc" rows="2" placeholder="What happened?"></textarea></label>
+              </div>
+              <div class="modal-actions"><button class="sbtn" id="iBtn" data-perm="dock">Submit incident</button></div>
+            </div>
+            <aside class="dm-log">
+              <h4>Incidents</h4><ul id="incList"></ul>
+              <h4 style="margin-top:16px">Driver log</h4><ul id="visitLog"></ul>
+            </aside>
+          </div>
+          <h4 class="vh" style="margin-top:24px">Production timeline <small>finished batches are added to stock</small></h4>
+          <div id="prodList"></div>
+        </div>
+
+        <!-- Stock count -->
+        <div id="viewCount" class="hidden">
+          <div class="dm-tools">
+            <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--muted)">Branch <select class="in" id="cBr"></select></label>
+            <span style="flex:1"></span>
+            <button class="sbtn primary" id="cApply" data-perm="count">Apply adjustments</button>
+          </div>
+          <div class="tbl-wrap">
+            <table style="min-width:620px">
+              <thead><tr><th>SKU</th><th>Item</th><th>System qty</th><th>Counted</th><th>Variance</th></tr></thead>
+              <tbody id="cntBody"></tbody>
+            </table>
+          </div>
+          <p class="hint">Enter what you physically counted. Variances are highlighted and applied to stock when you confirm.</p>
+        </div>
+
+        <!-- Contacts -->
+        <div id="viewSup" class="hidden">
+          <div class="dm-layout">
+            <div class="tbl-wrap"><table style="min-width:520px">
+              <thead><tr><th>Name</th><th>Type</th><th>Phone</th><th>Orders</th><th>Order value</th></tr></thead>
+              <tbody id="supBody"></tbody></table></div>
+            <div class="panel">
+              <h4>Add supplier / customer</h4>
+              <div class="fgrid">
+                <label class="full">Name<input class="in" id="sName" placeholder="e.g. Habesha Foods PLC"></label>
+                <label>Type<select class="in" id="sType"><option>Supplier</option><option>Customer</option></select></label>
+                <label>Phone<input class="in" id="sPhone" placeholder="+251 9XX XXX XXX"></label>
+              </div>
+              <div class="modal-actions"><button class="sbtn primary" id="sBtn" data-perm="suppliers">Add contact</button></div>
+              <p class="hint">Contacts appear as suggestions when you create an order. New names typed in an order are added automatically.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- History -->
+        <div id="viewHist" class="hidden">
+          <div class="dm-tools">
+            <input class="in" id="hSearch" type="search" placeholder="Filter history by text or role…" style="flex:1">
+            <button class="sbtn" id="hExport">⬇ Export history</button>
+          </div>
+          <div class="tbl-wrap"><table style="min-width:560px">
+            <thead><tr><th>Time</th><th>User role</th><th>Event</th></tr></thead>
+            <tbody id="histBody"></tbody></table>
+            <div id="histEmpty" class="empty hidden">No events yet. Make a change and it will appear here.</div></div>
+        </div>
+
+        <!-- Users -->
+        <div id="viewUsers" class="hidden">
+          <div class="tbl-wrap">
+            <table style="min-width:640px">
+              <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Last login</th></tr></thead>
+              <tbody id="userBody"></tbody>
+            </table>
+          </div>
+          <h4 class="vh" style="margin-top:24px">Role permissions</h4>
+          <div class="tbl-wrap"><table id="permTbl" style="min-width:560px"></table></div>
+          <p class="hint">Tip: change "Viewing as" above to see how each role's buttons are enabled or locked.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Add / edit item modal -->
+<div class="modal-back" id="modalBack">
+  <div class="modal" role="dialog" aria-modal="true">
+    <h3 id="modalTitle">Add item</h3>
+    <div class="fgrid">
+      <label class="full">Item name<input class="in" id="mName" placeholder="e.g. Sunflower oil 5L"></label>
+      <label>SKU<input class="in" id="mSku" placeholder="e.g. FD-1010"></label>
+      <label>Category<select class="in" id="mCat"></select></label>
+      <label>Branch<select class="in" id="mBr"></select></label>
+      <label>Quantity<input class="in" id="mQty" type="number" min="0" value="0"></label>
+      <label>Reorder level<input class="in" id="mRe" type="number" min="0" value="10"></label>
+      <label>Unit price (ETB)<input class="in" id="mPrice" type="number" min="0" value="0"></label>
+      <label class="full">Expiry date (optional)<input class="in" id="mExp" type="date"></label>
+    </div>
+    <div class="modal-actions">
+      <button class="sbtn" id="mCancel">Cancel</button>
+      <button class="sbtn primary" id="mSave">Save item</button>
+    </div>
+  </div>
+</div>
+
+<!-- New order modal -->
+<div class="modal-back" id="ordBack">
+  <div class="modal" role="dialog" aria-modal="true">
+    <h3>New order</h3>
+    <div class="fgrid">
+      <label>Type<select class="in" id="oType"><option value="in">Inbound (purchase)</option><option value="out">Outbound (sales)</option></select></label>
+      <label>Scheduled date<input class="in" id="oDate" type="date"></label>
+      <label class="full">Supplier / customer<input class="in" id="oParty" list="partyList" placeholder="e.g. Shoa Supermarket"><datalist id="partyList"></datalist></label>
+      <label class="full">Item<select class="in" id="oItem"></select></label>
+      <label>Quantity<input class="in" id="oQty" type="number" min="1" value="10"></label>
+      <label>Dock door<select class="in" id="oDoor"><option>1</option><option>2</option><option>3</option><option>4</option></select></label>
+    </div>
+    <div class="modal-actions">
+      <button class="sbtn" id="oCancel">Cancel</button>
+      <button class="sbtn primary" id="oSave">Create order</button>
+    </div>
+  </div>
+</div>
+
+<!-- Pallet tag modal -->
+<div class="modal-back" id="lblBack">
+  <div class="modal" role="dialog" aria-modal="true" style="width:min(400px,100%)">
+    <h3>Pallet tag</h3>
+    <div id="lblBox"></div>
+    <p class="hint">Preview only. The full platform prints scannable Code 128 / QR labels and shipment plaques.</p>
+    <div class="modal-actions">
+      <button class="sbtn" id="lblClose">Close</button>
+      <button class="sbtn primary" id="lblPrint">Print label</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- MOBILE -->
+<section id="mobile">
+  <div class="container mobile-grid">
+    <div class="phones">
+      <div class="phone"><div class="screen">
+        <h5>Receive stock</h5>
+        <div class="scan">Scanning barcode…</div>
+        <div class="row"><span>Cooking oil 5L</span><b>×24</b></div>
+        <div class="row"><span>Sugar 50kg</span><b>×10</b></div>
+        <div class="row"><span>Pasta 500g</span><b>×60</b></div>
+        <div class="mbtn">Confirm receipt</div>
+      </div></div>
+      <div class="phone"><div class="screen">
+        <h5>Driver check-in</h5>
+        <div class="check">
+          <div><b>Truck AA-3-12345</b><br><span style="color:#5b6b62">Door 3 · Inbound</span></div>
+          <div><b>Driver:</b> Abebe T.</div>
+          <div><b>Status:</b> <span class="tag t-grn">Checked in</span></div>
+        </div>
+        <div class="mbtn" style="background:#fff;color:var(--red);border:1px solid var(--red)">Report incident</div>
+        <div class="mbtn">Generate sign-out PDF</div>
+      </div></div>
+    </div>
+    <div>
+      <span class="eyebrow">Mobile app</span>
+      <h2>Run the warehouse floor from a phone or RF scanner</h2>
+      <p class="lead">Android &amp; iOS app (optional add-on) built for the dock, the stockroom and the road.</p>
+      <ul class="list">
+        <li>Order processing and inventory management via RF scanner gun</li>
+        <li>Driver check-in and sign-out paperwork in PDF format</li>
+        <li>Incident reporting interface</li>
+        <li>Pallet tag and shipment plaque generation with barcodes</li>
+        <li>Works offline and syncs when connected</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- INDUSTRIES -->
+<section class="alt" id="industries">
+  <div class="container center">
+    <span class="eyebrow">Who it's for</span>
+    <h2>Built for the way Ethiopian businesses trade</h2>
+    <div class="chips">
+      <span class="chip">🛒 Retail</span><span class="chip">📦 Wholesalers &amp; distributors</span>
+      <span class="chip">🏭 Manufacturers</span><span class="chip">🌐 E-commerce</span>
+      <span class="chip">💊 Pharmacies &amp; medical distributors</span><span class="chip">🏨 Hospitality</span>
+      <span class="chip">🚢 Importers &amp; exporters</span>
+    </div>
+  </div>
+</section>
+
+<!-- LOCAL ADVANTAGE -->
+<section class="local">
+  <div class="container center">
+    <span class="eyebrow">Why local matters</span>
+    <h2>International tools weren't made for you. This one is.</h2>
+    <p class="lead">Designed around Ethiopian business realities.</p>
+    <div class="cards">
+      <div class="card"><div class="ico">🗣️</div><h3>Amharic &amp; Oromiffa</h3><p>Full interface support in local languages.</p></div>
+      <div class="card"><div class="ico">💵</div><h3>Pricing in ETB</h3><p>No dollar exchange headaches.</p></div>
+      <div class="card"><div class="ico">🧮</div><h3>Ethiopian tax integration</h3><p>Aligned with local tax requirements.</p></div>
+      <div class="card"><div class="ico">📴</div><h3>Offline access</h3><p>Reliable even with patchy connectivity.</p></div>
+      <div class="card"><div class="ico">🤝</div><h3>Local support</h3><p>Real people nearby, with customization available.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="container center">
+    <span class="eyebrow">Pricing</span>
+    <h2>Flexible plans: subscribe or buy once</h2>
+    <p class="lead">Start small, grow when you're ready. All prices in Ethiopian Birr.</p>
+
+    <div class="toggle" role="tablist">
+      <button class="on" id="btnSub" onclick="showPricing('sub')">Subscription</button>
+      <button id="btnOne" onclick="showPricing('one')">One-time license</button>
+    </div>
+
+    <div id="sub" class="plans">
+      <div class="plan">
+        <h3>Basic</h3><div class="price">ETB 2,500<small> /month</small></div>
+        <ul><li>Real-time inventory tracking</li><li>Barcode &amp; QR support</li><li>Purchase &amp; sales orders</li><li>Low-stock alerts</li></ul>
+        <a href="#demo" class="btn btn-ghost">Start free trial</a>
+      </div>
+      <div class="plan pop">
+        <h3>Standard</h3><div class="price">ETB 4,000<small> /month</small></div>
+        <ul><li>Everything in Basic</li><li>Multi-branch &amp; warehouses</li><li>Reports &amp; analytics</li><li>Roles &amp; permissions</li></ul>
+        <a href="#demo" class="btn btn-primary">Start free trial</a>
+      </div>
+      <div class="plan">
+        <h3>Premium</h3><div class="price">ETB 6,000<small> /month</small></div>
+        <ul><li>Everything in Standard</li><li>Scheduler &amp; operations monitoring</li><li>Priority local support</li><li>Integrations &amp; API access</li></ul>
+        <a href="#demo" class="btn btn-ghost">Start free trial</a>
+      </div>
+    </div>
+
+    <div id="one" class="plans hidden" style="max-width:520px">
+      <div class="plan pop">
+        <h3>One-time license</h3><div class="price"><small>Starting from </small>ETB 30,000</div>
+        <ul><li>Own your license outright</li><li>Optional maintenance: ETB 3,000 / year</li><li>Setup and training available</li><li>Custom modules on request</li></ul>
+        <a href="#demo" class="btn btn-primary">Request a quote</a>
+      </div>
+    </div>
+
+    <p class="note">Add-ons: mobile app (Android &amp; iOS), POS integration, accounting sync, e-commerce integration, custom modules, setup &amp; training.</p>
+  </div>
+</section>
+
+<!-- ROLLOUT -->
+<section class="alt" id="rollout">
+  <div class="container center">
+    <span class="eyebrow">Getting started</span>
+    <h2>From first call to full launch</h2>
+    <p class="lead">A clear plan with training and support at every stage.</p>
+    <div class="timeline">
+      <div class="step"><span class="when">Month 1</span><h3>Requirements &amp; design</h3><p>We map your products, branches and workflows.</p></div>
+      <div class="step"><span class="when">Months 2–3</span><h3>Development &amp; testing</h3><p>Configuration, customization and thorough testing.</p></div>
+      <div class="step"><span class="when">Month 4</span><h3>Pilot rollout</h3><p>Go live with one branch, collect feedback, train your team.</p></div>
+      <div class="step"><span class="when">Ongoing</span><h3>Full launch &amp; support</h3><p>Roll out to every branch with continued local support.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="demo">
+  <div class="container">
+    <div class="cta">
+      <h2>See it working with your own stock</h2>
+      <p>Book a free walkthrough or start a trial. We'll set up a sample with your products.</p>
+      <form class="demo" onsubmit="return false">
+        <input type="text" placeholder="Your name">
+        <input type="text" placeholder="Business name">
+        <input type="tel" placeholder="Phone number">
+        <select><option>Business type</option><option>Retail</option><option>Wholesale / distribution</option><option>Manufacturing</option><option>Pharmacy / medical</option><option>Hospitality</option><option>Import / export</option><option>E-commerce</option></select>
+        <button class="btn btn-primary" type="button">Request a demo</button>
+      </form>
+      <a href="mailto:hello@example.com" class="btn btn-ghost">Or email us</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container foot">
+    <div><strong>StockHub Ethiopia</strong> · Prototype for discussion · Prepared by Fasil Bazezew</div>
+    <div>Addis Ababa, Ethiopia · hello@example.com · +251 9XX XXX XXX</div>
+  </div>
+</footer>
+
+<script>
+function showPricing(which){
+  document.getElementById('sub').classList.toggle('hidden', which!=='sub');
+  document.getElementById('one').classList.toggle('hidden', which!=='one');
+  document.getElementById('btnSub').classList.toggle('on', which==='sub');
+  document.getElementById('btnOne').classList.toggle('on', which==='one');
+}
+
+/* ===== Inventory platform demo ===== */
+(function(){
+  const $ = s => document.querySelector(s);
+  const $$ = s => Array.from(document.querySelectorAll(s));
+  const CATS = ['Food','Beverage','Household','Pharmacy'];
+  const BRANCHES = ['Bole','Merkato','Piassa'];
+  const pad = n => String(n).padStart(2,'0');
+  const ymd = d => d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate());
+  const dt = n => { const x = new Date(); x.setDate(x.getDate()+n); return ymd(x); };
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const fmt = n => Number(n).toLocaleString('en-US');
+  const short = n => n >= 1e6 ? (n/1e6).toFixed(2) + 'M' : n >= 1e3 ? Math.round(n/1e3) + 'K' : String(Math.round(n));
+
+  /* ---- Language (draft translations, to be reviewed by native speakers) ---- */
+  const T = {
+    en: {tInv:'Inventory',tAlerts:'Alerts',tOrders:'Orders',tTransfers:'Transfers',tSched:'Schedule',tReports:'Reports',tUsers:'Users',tScan:'Scan',tOps:'Operations',tCount:'Stock count',tSup:'Contacts',tHist:'History',
+      export:'Export CSV',addItem:'Add item',role:'Viewing as',offline:'Offline mode',
+      kSku:'Items (SKUs)',kVal:'Stock value',kLow:'Low / out of stock',kExp:'Expiring ≤ 30 days',
+      search:'Search by item name or SKU…',allBr:'All branches',allCat:'All categories',allStatus:'All statuses',
+      hSku:'SKU',hItem:'Item',hCat:'Category',hBr:'Branch',hQty:'Quantity',hRe:'Reorder at',hPrice:'Unit price',hExp:'Expiry',hStatus:'Status',
+      activity:'Recent activity'},
+    am: {tInv:'ክምችት',tAlerts:'ማስጠንቀቂያዎች',tOrders:'ትዕዛዞች',tTransfers:'ዝውውሮች',tSched:'መርሐ ግብር',tReports:'ሪፖርቶች',tUsers:'ተጠቃሚዎች',tScan:'ስካን',tOps:'ኦፕሬሽን',tCount:'የክምችት ቆጠራ',tSup:'አጋሮች',tHist:'ታሪክ',
+      export:'ወደ CSV ላክ',addItem:'እቃ ጨምር',role:'ሚና',offline:'ከመስመር ውጭ',
+      kSku:'እቃዎች',kVal:'የክምችት ዋጋ',kLow:'ዝቅተኛ / ያለቀ ክምችት',kExp:'በ30 ቀን ውስጥ የሚያልፍ',
+      search:'በስም ወይም SKU ይፈልጉ…',allBr:'ሁሉም ቅርንጫፎች',allCat:'ሁሉም ምድቦች',allStatus:'ሁሉም ሁኔታዎች',
+      hSku:'SKU',hItem:'እቃ',hCat:'ምድብ',hBr:'ቅርንጫፍ',hQty:'ብዛት',hRe:'እንደገና ማዘዣ',hPrice:'ዋጋ',hExp:'ማብቂያ',hStatus:'ሁኔታ',
+      activity:'የቅርብ ጊዜ እንቅስቃሴ'},
+    om: {tInv:'Kuusaa',tAlerts:'Akeekkachiisa',tOrders:'Ajajoota',tTransfers:'Dabarsuu',tSched:'Sagantaa',tReports:'Gabaasa',tUsers:'Fayyadamtoota',tScan:'Iskaan',tOps:'Hojii',tCount:"Lakkaa'insa kuusaa",tSup:'Hariiroo',tHist:'Seenaa',
+      export:'CSV baasi',addItem:'Meeshaa dabali',role:'Gahee',offline:'Interneetii malee',
+      kSku:'Meeshaalee',kVal:'Gatii kuusaa',kLow:'Xiqqaate / Dhumate',kExp:'Guyyaa 30 keessatti kan darbu',
+      search:'Maqaa ykn SKUn barbaadi…',allBr:'Damee hunda',allCat:'Ramaddii hunda',allStatus:'Haala hunda',
+      hSku:'SKU',hItem:'Meeshaa',hCat:'Ramaddii',hBr:'Damee',hQty:"Baay'ina",hRe:"Deebi'ee ajaji",hPrice:'Gatii tokko',hExp:'Guyyaa darbu',hStatus:'Haala',
+      activity:'Sochii dhiyoo'}
+  };
+  let lang = 'en';
+  function applyLang(){
+    const d = T[lang];
+    $$('[data-i18n]').forEach(e => { const v = d[e.dataset.i18n]; if (v) e.textContent = v; });
+    $$('[data-i18n-ph]').forEach(e => { const v = d[e.dataset.i18nPh]; if (v) e.placeholder = v; });
+  }
+
+  /* ---- Roles ---- */
+  const PERMS = {
+    Admin:   ['add','edit','del','adjust','orders','transfer','sched','users'],
+    Manager: ['add','edit','adjust','orders','transfer','sched'],
+    Clerk:   ['adjust','orders'],
+    Viewer:  []
+  };
+  PERMS.Admin.push('dock','count','suppliers'); PERMS.Manager.push('dock','count','suppliers'); PERMS.Clerk.push('dock');
+  let role = 'Admin';
+  const can = p => PERMS[role].includes(p);
+  function guard(p){
+    if (can(p)) return true;
+    toast("Your role (" + role + ") can't do that");
+    return false;
+  }
+  function applyPerms(){
+    $$('[data-perm]').forEach(b => b.classList.toggle('locked', !can(b.dataset.perm)));
+  }
+
+  /* ---- Data ---- */
+  let items = [
+    {id:1, sku:'FD-1001', name:'Teff flour 25kg',     cat:'Food',      br:'Piassa',  qty:860, re:200, price:3200, exp:dt(150)},
+    {id:2, sku:'FD-1002', name:'Sunflower oil 5L',    cat:'Food',      br:'Merkato', qty:12,  re:40,  price:1250, exp:dt(220)},
+    {id:3, sku:'FD-1003', name:'Sugar 50kg',          cat:'Food',      br:'Merkato', qty:95,  re:30,  price:6800, exp:dt(300)},
+    {id:4, sku:'FD-1004', name:'Pasta 500g',          cat:'Food',      br:'Bole',    qty:420, re:100, price:75,   exp:dt(180)},
+    {id:5, sku:'BV-2001', name:'Bottled water 1.5L',  cat:'Beverage',  br:'Bole',    qty:1500,re:400, price:28,   exp:dt(365)},
+    {id:6, sku:'BV-2002', name:'Fruit juice 1L',      cat:'Beverage',  br:'Piassa',  qty:60,  re:80,  price:95,   exp:dt(20)},
+    {id:7, sku:'HH-3001', name:'Laundry soap 1kg',    cat:'Household', br:'Merkato', qty:210, re:60,  price:180,  exp:''},
+    {id:8, sku:'HH-3002', name:'Light bulb LED 12W',  cat:'Household', br:'Bole',    qty:0,   re:50,  price:120,  exp:''},
+    {id:9, sku:'PH-4001', name:'Paracetamol 500mg',   cat:'Pharmacy',  br:'Bole',    qty:340, re:100, price:45,   exp:dt(25)},
+    {id:10,sku:'PH-4002', name:'Amoxicillin 250mg',   cat:'Pharmacy',  br:'Bole',    qty:75,  re:60,  price:210,  exp:dt(90)},
+    {id:11,sku:'PH-4003', name:'Hand sanitizer 500ml',cat:'Pharmacy',  br:'Piassa',  qty:18,  re:30,  price:160,  exp:dt(-5)},
+    {id:12,sku:'FD-1005', name:'Berbere spice 1kg',   cat:'Food',      br:'Merkato', qty:140, re:50,  price:520,  exp:dt(120)}
+  ];
+  let orders = [
+    {id:'PO-1000', type:'in',  party:'Teff Millers Union',   item:1,  qty:400, date:dt(-2), door:1, status:'Done'},
+    {id:'PO-1001', type:'in',  party:'Ethio Edible Oil Co.', item:2,  qty:200, date:dt(1),  door:2, status:'Pending'},
+    {id:'PO-1002', type:'in',  party:'Addis Pharma Supply',  item:11, qty:100, date:dt(2),  door:3, status:'Pending'},
+    {id:'PO-1003', type:'in',  party:'Lumen Trading PLC',    item:8,  qty:300, date:dt(1),  door:4, status:'Pending'},
+    {id:'SO-2001', type:'out', party:'Shoa Supermarket',     item:4,  qty:120, date:dt(0),  door:1, status:'Pending'},
+    {id:'SO-2002', type:'out', party:'Bole Pharmacy',        item:10, qty:30,  date:dt(3),  door:1, status:'Pending'},
+    {id:'SO-2003', type:'out', party:'Kazanchis Hotel',      item:5,  qty:500, date:dt(4),  door:2, status:'Pending'}
+  ];
+  let users = [
+    {n:'Hanna Tesfaye', e:'hanna@example.com', r:'Admin',   a:true,  l:'Today'},
+    {n:'Yonas Bekele',  e:'yonas@example.com', r:'Manager', a:true,  l:'Today'},
+    {n:'Abebe Kebede',  e:'abebe@example.com', r:'Clerk',   a:true,  l:'Yesterday'},
+    {n:'Selam Girma',   e:'selam@example.com', r:'Clerk',   a:true,  l:'2 days ago'},
+    {n:'Dawit Alemu',   e:'dawit@example.com', r:'Viewer',  a:false, l:'12 days ago'}
+  ];
+  const SHIFT_SEQ = ['AM','PM','Off'];
+  let shifts = users.map((u,i) => Array.from({length:7}, (_,d) => ['AM','AM','PM','PM','Off','AM','Off'][(d+i)%7]));
+  let transfers = [], logs = [], fullLog = [];
+  let nextId = 100, poNext = 1004, soNext = 2004, editingId = null;
+  let offline = false, pending = 0;
+
+  /* ---- Helpers ---- */
+  const todayStr = () => ymd(new Date());
+  const daysTo = e => e ? Math.round((new Date(e + 'T00:00:00') - new Date(todayStr() + 'T00:00:00')) / 86400000) : null;
+  function status(i){
+    if (i.qty === 0) return {k:'out', l:'Out of stock', c:'t-red'};
+    if (i.qty <= i.re) return {k:'low', l:'Low stock', c:'t-red'};
+    const d = daysTo(i.exp);
+    if (d !== null && d <= 30) return {k:'exp', l: d < 0 ? 'Expired' : 'Expires in ' + d + 'd', c:'t-yel'};
+    return {k:'ok', l:'In stock', c:'t-grn'};
+  }
+  const find = id => items.find(i => i.id === Number(id));
+  const findOrder = id => orders.find(o => o.id === id);
+  function addLog(m){
+    logs.unshift({t:new Date().toTimeString().slice(0,5), m});
+    logs = logs.slice(0,8);
+    fullLog.unshift({t:new Date().toLocaleString('en-GB',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}), r:role, m});
+    if (offline) pending++;
+    updateSync();
+  }
+  function toast(m){
+    const t = $('#toast'); t.textContent = m; t.classList.add('show');
+    clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove('show'), 2400);
+  }
+  function updateSync(){
+    const b = $('#syncBadge');
+    b.className = 'sync' + (offline ? ' off' : '');
+    b.textContent = offline
+      ? '● Offline · ' + pending + ' change' + (pending === 1 ? '' : 's') + ' pending sync'
+      : '● Online · synced';
+    $('#offBanner').classList.toggle('hidden', !offline);
+  }
+
+  /* ---- Inventory ---- */
+  let sortK = '', sortD = 1;
+  function filtered(){
+    const r = filtered0(); if (!sortK) return r;
+    return r.sort((a,b) => {
+      let x = a[sortK], y = b[sortK];
+      if (sortK === 'exp'){ if (!x) return 1; if (!y) return -1; }
+      return (typeof x === 'number' ? x - y : String(x).localeCompare(String(y))) * sortD;
+    });
+  }
+  function filtered0(){
+    const q = $('#fSearch').value.trim().toLowerCase();
+    const c = $('#fCat').value, b = $('#fBr').value, s = $('#fStatus').value;
+    return items.filter(i =>
+      (!q || i.name.toLowerCase().includes(q) || i.sku.toLowerCase().includes(q)) &&
+      (!c || i.cat === c) && (!b || i.br === b) && (!s || status(i).k === s));
+  }
+  function renderKpis(){
+    const b = $('#fBr').value;
+    const base = items.filter(i => !b || i.br === b);
+    $('#kSku').textContent = fmt(base.length);
+    $('#kVal').textContent = 'ETB ' + fmt(base.reduce((a,i) => a + i.qty * i.price, 0));
+    $('#kLow').textContent = base.filter(i => ['low','out'].includes(status(i).k)).length;
+    $('#kExp').textContent = base.filter(i => status(i).k === 'exp').length;
+    $('#alertCount').textContent = items.filter(i => status(i).k !== 'ok').length;
+  }
+  function renderInv(){
+    const rows = filtered();
+    $('#invBody').innerHTML = rows.map(i => {
+      const s = status(i);
+      return `<tr>
+        <td>${esc(i.sku)}</td>
+        <td><b>${esc(i.name)}</b></td>
+        <td>${esc(i.cat)}</td>
+        <td>${esc(i.br)}</td>
+        <td><span class="qty"><button data-perm="adjust" data-act="dec" data-id="${i.id}" aria-label="Decrease">−</button><b>${fmt(i.qty)}</b><button data-perm="adjust" data-act="inc" data-id="${i.id}" aria-label="Increase">+</button></span></td>
+        <td>${fmt(i.re)}</td>
+        <td>ETB ${fmt(i.price)}</td>
+        <td>${i.exp ? esc(i.exp) : '—'}</td>
+        <td><span class="tag ${s.c}">${s.l}</span></td>
+        <td><span class="rowact"><button data-act="label" data-id="${i.id}">Label</button><button data-perm="edit" data-act="edit" data-id="${i.id}">Edit</button><button class="del" data-perm="del" data-act="del" data-id="${i.id}">Delete</button></span></td>
+      </tr>`;
+    }).join('');
+    $('#emptyMsg').classList.toggle('hidden', rows.length > 0);
+    $('#logList').innerHTML = logs.length
+      ? logs.map(l => `<li><b>${l.t}</b>${esc(l.m)}</li>`).join('')
+      : '<li>No changes yet. Try adjusting a quantity.</li>';
+  }
+  function renderAlerts(){
+    const issues = items.filter(i => status(i).k !== 'ok');
+    $('#alertList').innerHTML = issues.length ? issues.map(i => {
+      const s = status(i);
+      const btn = s.k === 'exp'
+        ? `<button class="sbtn danger" data-perm="adjust" data-act="writeoff" data-id="${i.id}">Write off stock</button>`
+        : `<button class="sbtn primary" data-perm="adjust" data-act="restock" data-id="${i.id}">Restock +${Math.max(i.re*2,20)}</button> <button class="sbtn" data-perm="orders" data-act="draftPO" data-id="${i.id}">Draft PO</button>`;
+      return `<div class="alert-row"><div><b>${esc(i.name)}</b> <span class="tag ${s.c}">${s.l}</span><small>${esc(i.br)} · ${fmt(i.qty)} in stock · reorder at ${fmt(i.re)}${i.exp ? ' · expiry ' + esc(i.exp) : ''}</small></div>${btn}</div>`;
+    }).join('') : '<div class="empty">🎉 All clear. No alerts right now.</div>';
+  }
+
+  /* ---- Orders ---- */
+  function renderOrders(){
+    const f = $('#oFilter').value, s = $('#oStatus').value;
+    const rows = orders.filter(o => (!f || o.type === f) && (!s || o.status === s))
+      .sort((a,b) => a.date.localeCompare(b.date));
+    $('#ordBody').innerHTML = rows.map(o => {
+      const it = find(o.item), done = o.status === 'Done';
+      const docBtn = `<button data-act="ordDoc" data-oid="${o.id}">Doc</button>`;
+      const act = done ? `<span class="rowact">${docBtn}</span>` :
+        `<span class="rowact"><button data-perm="orders" data-act="ordDone" data-oid="${o.id}">${o.type === 'in' ? 'Receive' : 'Ship'}</button><button class="del" data-perm="orders" data-act="ordDel" data-oid="${o.id}">Cancel</button>${docBtn}</span>`;
+      return `<tr>
+        <td><b>${o.id}</b></td>
+        <td><span class="tag ${o.type === 'in' ? 't-grn' : 't-yel'}">${o.type === 'in' ? '⬇ Inbound' : '⬆ Outbound'}</span></td>
+        <td>${esc(o.party)}</td>
+        <td>${it ? esc(it.name) + ' · ' + esc(it.br) : '(removed)'}</td>
+        <td>${fmt(o.qty)}</td>
+        <td>ETB ${fmt(orderTotal(o))}</td>
+        <td>${o.date}</td>
+        <td>Door ${o.door}</td>
+        <td><span class="tag ${done ? 't-grn' : 'tag-gray'}">${o.status}</span></td>
+        <td>${act}</td>
+      </tr>`;
+    }).join('');
+    $('#ordEmpty').classList.toggle('hidden', rows.length > 0);
+  }
+  function completeOrder(o){
+    const it = find(o.item);
+    if (!it){ toast('Item no longer exists'); return; }
+    if (o.type === 'in'){
+      it.qty += o.qty;
+      addLog('Received ' + o.qty + ' × ' + it.name + ' (' + o.id + ')');
+      toast(o.id + ' received. Stock updated');
+    } else {
+      if (it.qty < o.qty){ toast('Not enough stock: only ' + it.qty + ' available'); return; }
+      it.qty -= o.qty;
+      addLog('Shipped ' + o.qty + ' × ' + it.name + ' (' + o.id + ')');
+      toast(o.id + ' shipped. Stock updated');
+    }
+    o.status = 'Done';
+  }
+  function openOrderModal(){
+    $('#oItem').innerHTML = items.map(i => `<option value="${i.id}">${esc(i.name)} · ${esc(i.br)}</option>`).join('');
+    $('#oType').value = 'in'; $('#oParty').value = ''; $('#oQty').value = 10;
+    $('#oDate').value = dt(1); $('#oDoor').value = '1';
+    $('#ordBack').classList.add('open');
+    setTimeout(() => $('#oParty').focus(), 50);
+  }
+  function saveOrder(){
+    const party = $('#oParty').value.trim(), qty = parseInt($('#oQty').value) || 0, date = $('#oDate').value;
+    if (!party){ toast('Please enter a supplier or customer'); $('#oParty').focus(); return; }
+    if (qty < 1){ toast('Quantity must be at least 1'); return; }
+    if (!date){ toast('Please choose a date'); return; }
+    const type = $('#oType').value;
+    const id = type === 'in' ? 'PO-' + (poNext++) : 'SO-' + (soNext++);
+    orders.push({id, type, party, item:Number($('#oItem').value), qty, date, door:Number($('#oDoor').value), status:'Pending'});
+    if (!suppliers.find(x => x.n === party)) suppliers.push({n:party, t:type === 'in' ? 'Supplier' : 'Customer', p:''});
+    addLog('Created order ' + id + ' (' + party + ')');
+    toast('Order ' + id + ' created');
+    $('#ordBack').classList.remove('open');
+    render();
+  }
+
+  /* ---- Transfers ---- */
+  function renderTransfers(){
+    const cur = $('#tItem').value;
+    $('#tItem').innerHTML = items.filter(i => i.qty > 0)
+      .map(i => `<option value="${i.id}">${esc(i.name)} · ${esc(i.br)} (${fmt(i.qty)})</option>`).join('');
+    if (cur && $('#tItem').querySelector(`option[value="${cur}"]`)) $('#tItem').value = cur;
+    $('#tLog').innerHTML = transfers.length
+      ? transfers.map(t => `<li><b>${t.t}</b>${esc(t.m)}</li>`).join('')
+      : '<li>No transfers yet.</li>';
+  }
+  function doTransfer(){
+    if (!guard('transfer')) return;
+    const src = find($('#tItem').value), to = $('#tTo').value, q = parseInt($('#tQty').value) || 0;
+    if (!src){ toast('Choose an item to transfer'); return; }
+    if (to === src.br){ toast('Choose a different destination branch'); return; }
+    if (q < 1 || q > src.qty){ toast('Quantity must be between 1 and ' + src.qty); return; }
+    const dest = items.find(i => i.name === src.name && i.br === to);
+    if (dest) dest.qty += q;
+    else items.push({...src, id: nextId++, br: to, qty: q});
+    src.qty -= q;
+    const m = q + ' × ' + src.name + ': ' + src.br + ' → ' + to;
+    transfers.unshift({t:new Date().toTimeString().slice(0,5), m});
+    transfers = transfers.slice(0,8);
+    addLog('Transferred ' + m);
+    toast('Transfer complete');
+    render();
+  }
+
+  /* ---- Scheduler ---- */
+  function renderSched(){
+    let html = '';
+    for (let d = 0; d < 7; d++){
+      const date = dt(d), dateObj = new Date(date + 'T00:00:00');
+      const evs = orders.filter(o => o.date === date).map(o => {
+        const it = find(o.item);
+        return `<div class="ev ${o.type}"><b>${o.type === 'in' ? '⬇' : '⬆'} ${o.id}</b><br>${it ? esc(it.name) : '(removed)'} ×${fmt(o.qty)}<br><small>Door ${o.door} · ${o.status}</small></div>`;
+      }).join('') || '<div class="ev-empty">No shipments</div>';
+      html += `<div class="day${d === 0 ? ' today' : ''}"><h5>${dateObj.toLocaleDateString('en-US',{weekday:'short', day:'numeric', month:'short'})}${d === 0 ? ' · Today' : ''}</h5>${evs}</div>`;
+    }
+    $('#weekGrid').innerHTML = html;
+
+    const days = Array.from({length:7}, (_,d) => new Date(dt(d) + 'T00:00:00').toLocaleDateString('en-US',{weekday:'short', day:'numeric'}));
+    $('#roster').innerHTML = '<thead><tr><th>Employee</th>' + days.map(x => `<th>${x}</th>`).join('') + '</tr></thead><tbody>' +
+      users.map((u,ui) => `<tr><td><b>${esc(u.n)}</b><br><span style="color:var(--muted);font-size:11.5px">${u.r}</span></td>` +
+        shifts[ui].map((s,d) => `<td><button class="shift ${s}" data-perm="sched" data-act="shift" data-u="${ui}" data-d="${d}">${s}</button></td>`).join('') + '</tr>').join('') + '</tbody>';
+  }
+
+  /* ---- Reports ---- */
+  function barCard(title, rows){
+    const max = Math.max(1, ...rows.map(r => r.v));
+    return `<div class="rep"><h4>${title}</h4>${rows.map(r =>
+      `<div class="bar-row"><span title="${esc(r.l)}">${esc(r.l)}</span><div class="bar"><i class="${r.c || ''}" style="width:${Math.max(2, r.v / max * 100)}%"></i></div><b>${r.f || short(r.v)}</b></div>`).join('')}</div>`;
+  }
+  function renderReports(){
+    const val = i => i.qty * i.price;
+    const byBranch = BRANCHES.map(b => ({l:b, v:items.filter(i => i.br === b).reduce((a,i) => a + val(i), 0)}));
+    const byCat = CATS.map(c => ({l:c, v:items.filter(i => i.cat === c).reduce((a,i) => a + val(i), 0)}));
+    const top = items.slice().sort((a,b) => val(b) - val(a)).slice(0,5).map(i => ({l:i.name + ' · ' + i.br, v:val(i)}));
+    const health = [['In stock','ok',''],['Low stock','low','y'],['Out of stock','out','r'],['Expiring / expired','exp','y']]
+      .map(([l,k,c]) => ({l, c, v:items.filter(i => status(i).k === k).length, f:String(items.filter(i => status(i).k === k).length)}));
+    const pend = t => orders.filter(o => o.type === t && o.status === 'Pending').reduce((a,o) => a + o.qty, 0);
+    const pipe = [{l:'Inbound units', v:pend('in'), f:fmt(pend('in'))}, {l:'Outbound units', c:'y', v:pend('out'), f:fmt(pend('out'))}];
+    $('#repGrid').innerHTML =
+      barCard('Stock value by branch (ETB)', byBranch) +
+      barCard('Stock value by category (ETB)', byCat) +
+      barCard('Top 5 items by value (ETB)', top) +
+      barCard('Stock health (items)', health) +
+      barCard('Pending order pipeline (units)', pipe) + abcCard() + expCard();
+  }
+
+  /* ---- Users ---- */
+  const CAPS = [
+    ['View inventory & reports', ['Admin','Manager','Clerk','Viewer']],
+    ['Adjust quantities, restock', ['Admin','Manager','Clerk']],
+    ['Create & process orders', ['Admin','Manager','Clerk']],
+    ['Add / edit items', ['Admin','Manager']],
+    ['Transfer between branches', ['Admin','Manager']],
+    ['Edit schedules', ['Admin','Manager']],
+    ['Delete items', ['Admin']],
+    ['Dock check-in, incidents, production', ['Admin','Manager','Clerk']],
+    ['Stock counts & adjustments', ['Admin','Manager']],
+    ['Import CSV, manage contacts', ['Admin','Manager']],
+    ['Manage users & roles', ['Admin']]
+  ];
+  function renderUsers(){
+    $('#userBody').innerHTML = users.map((u,i) => `<tr>
+      <td><b>${esc(u.n)}</b></td><td>${esc(u.e)}</td>
+      <td><select class="in" data-uid="${i}" data-perm="users">${Object.keys(PERMS).map(r => `<option${r === u.r ? ' selected' : ''}>${r}</option>`).join('')}</select></td>
+      <td><button class="sbtn" data-perm="users" data-act="uActive" data-id="${i}">${u.a ? '● Active' : '○ Inactive'}</button></td>
+      <td>${esc(u.l)}</td></tr>`).join('');
+    const roles = Object.keys(PERMS);
+    $('#permTbl').innerHTML = '<thead><tr><th>Capability</th>' + roles.map(r => `<th>${r}</th>`).join('') + '</tr></thead><tbody>' +
+      CAPS.map(([c, rs]) => `<tr><td>${c}</td>${roles.map(r => `<td>${rs.includes(r) ? '✓' : '—'}</td>`).join('')}</tr>`).join('') + '</tbody>';
+  }
+
+  /* ---- Pallet tag ---- */
+  function barcodeSvg(text){
+    let x = 4, bars = '';
+    const add = (w, black) => { if (black) bars += `<rect x="${x}" y="0" width="${w}" height="60" fill="#000"/>`; x += w; };
+    [2,1,2,1].forEach((w,k) => add(w, k % 2 === 0));
+    for (const ch of text){
+      const c = ch.charCodeAt(0);
+      for (let k = 0; k < 6; k++) add(1 + ((c * (k + 3) + k) % 3), k % 2 === 0);
+    }
+    [2,1,2].forEach((w,k) => add(w, k % 2 === 0));
+    return `<svg viewBox="0 0 ${x + 4} 60" width="100%" height="64" preserveAspectRatio="none" role="img" aria-label="Barcode for ${esc(text)}">${bars}</svg>`;
+  }
+  function labelHtml(i){
+    return `<div class="pallet"><div class="pl-top"><span>PALLET TAG</span><span>${esc(i.br)}</span></div>
+      <div class="pl-name">${esc(i.name)}</div>${barcodeSvg(i.sku)}
+      <div class="pl-sku">${esc(i.sku)}</div>
+      <div class="pl-row"><span>Qty: <b>${fmt(i.qty)}</b></span><span>Exp: <b>${i.exp ? esc(i.exp) : '—'}</b></span></div></div>`;
+  }
+  let labelItem = null;
+  function openLabel(i){
+    labelItem = i;
+    $('#lblBox').innerHTML = labelHtml(i);
+    $('#lblBack').classList.add('open');
+  }
+  function printLabel(){
+    const w = window.open('', '_blank', 'width=440,height=520');
+    if (!w){ toast('Allow pop-ups to print the label'); return; }
+    const css = 'body{font-family:Arial,sans-serif;padding:20px}.pallet{border:3px solid #000;border-radius:10px;padding:14px;width:340px}.pl-top{display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:8px}.pl-name{font-size:22px;font-weight:800;margin-bottom:10px}.pl-sku{text-align:center;font-family:monospace;margin:6px 0 10px}.pl-row{display:flex;justify-content:space-between;font-size:14px}';
+    w.document.write('<html><head><title>Pallet tag</title><style>' + css + '</style></head><body>' + labelHtml(labelItem) + '</body></html>');
+    w.document.close(); w.focus(); w.print();
+  }
+
+  /* ---- Item modal + export ---- */
+  function openModal(item){
+    editingId = item ? item.id : null;
+    $('#modalTitle').textContent = item ? 'Edit item' : 'Add item';
+    $('#mName').value  = item ? item.name : '';
+    $('#mSku').value   = item ? item.sku : 'NEW-' + nextId;
+    $('#mCat').value   = item ? item.cat : CATS[0];
+    $('#mBr').value    = item ? item.br : ($('#fBr').value || BRANCHES[0]);
+    $('#mQty').value   = item ? item.qty : 0;
+    $('#mRe').value    = item ? item.re : 10;
+    $('#mPrice').value = item ? item.price : 0;
+    $('#mExp').value   = item ? item.exp : '';
+    $('#modalBack').classList.add('open');
+    setTimeout(() => $('#mName').focus(), 50);
+  }
+  function saveModal(){
+    const name = $('#mName').value.trim();
+    if (!name){ toast('Please enter an item name'); $('#mName').focus(); return; }
+    const data = {
+      name, sku: $('#mSku').value.trim() || 'NEW-' + nextId,
+      cat: $('#mCat').value, br: $('#mBr').value,
+      qty: Math.max(0, parseInt($('#mQty').value) || 0),
+      re: Math.max(0, parseInt($('#mRe').value) || 0),
+      price: Math.max(0, parseFloat($('#mPrice').value) || 0),
+      exp: $('#mExp').value
+    };
+    if (editingId){
+      Object.assign(find(editingId), data);
+      addLog('Updated ' + data.name); toast('Item updated');
+    } else {
+      items.unshift({id: nextId++, ...data});
+      addLog('Added ' + data.name + ' (' + data.qty + ') at ' + data.br); toast('Item added');
+    }
+    $('#modalBack').classList.remove('open'); render();
+  }
+  function exportCsv(){
+    const head = ['SKU','Item','Category','Branch','Quantity','Reorder level','Unit price (ETB)','Expiry','Status'];
+    const q = v => '"' + String(v).replace(/"/g,'""') + '"';
+    const lines = [head.map(q).join(',')].concat(filtered().map(i =>
+      [i.sku,i.name,i.cat,i.br,i.qty,i.re,i.price,i.exp,status(i).l].map(q).join(',')));
+    const blob = new Blob([lines.join('\n')], {type:'text/csv'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = 'inventory.csv';
+    document.body.appendChild(a); a.click(); a.remove();
+    toast('Exported ' + (lines.length - 1) + ' items');
+  }
+
+  /* ---- Printing, scan, operations, stock count ---- */
+  const nowT = () => new Date().toTimeString().slice(0,5);
+  const VAT = 0.15;
+  const orderTotal = o => { const it = find(o.item); const sub = o.qty * (it ? it.price : 0); return sub + Math.round(sub * VAT); };
+
+  function printDoc(title, body){
+    const w = window.open('', '_blank', 'width=760,height=820');
+    if (!w){ toast('Allow pop-ups to print the document'); return false; }
+    const css = 'body{font-family:Arial,sans-serif;padding:28px;color:#111}h2{margin-bottom:4px}table{width:100%;border-collapse:collapse;margin:14px 0}th,td{border:1px solid #bbb;padding:8px;text-align:left;font-size:14px}.sig{margin-top:48px;display:flex;gap:40px}.sig div{flex:1;border-top:1px solid #000;padding-top:6px;font-size:13px}.fine{color:#666;font-size:12px;margin-top:24px}';
+    w.document.write('<html><head><title>' + esc(title) + '</title><style>' + css + '</style></head><body>' + body + '</body></html>');
+    w.document.close(); w.focus(); w.print();
+    return true;
+  }
+  function orderDoc(o){
+    const it = find(o.item), price = it ? it.price : 0, sub = o.qty * price, vat = Math.round(sub * VAT);
+    const title = o.type === 'out' ? 'Sales invoice (sample)' : 'Goods received note (sample)';
+    printDoc(title,
+      '<h2>' + title + '</h2><p><b>' + esc(o.id) + '</b> · ' + esc(o.date) + ' · Dock ' + o.door + '</p>' +
+      '<p>' + (o.type === 'out' ? 'Customer' : 'Supplier') + ': <b>' + esc(o.party) + '</b></p>' +
+      '<table><tr><th>Item</th><th>Qty</th><th>Unit price</th><th>Amount</th></tr><tr><td>' + (it ? esc(it.name) : '(removed)') + '</td><td>' + fmt(o.qty) + '</td><td>ETB ' + fmt(price) + '</td><td>ETB ' + fmt(sub) + '</td></tr></table>' +
+      '<table><tr><td>Subtotal</td><td>ETB ' + fmt(sub) + '</td></tr><tr><td>VAT 15%</td><td>ETB ' + fmt(vat) + '</td></tr><tr><td><b>Total</b></td><td><b>ETB ' + fmt(sub + vat) + '</b></td></tr></table>' +
+      '<p class="fine">Sample document generated by the StockHub demo. Not a valid tax invoice.</p>');
+  }
+
+  /* Scan */
+  let scanQ = '', scanLog = [];
+  function doScan(){
+    scanQ = $('#scanIn').value.trim();
+    if (scanQ){
+      const found = items.some(i => i.sku.toLowerCase() === scanQ.toLowerCase());
+      scanLog.unshift({t:nowT(), m:'Scanned ' + scanQ + (found ? '' : ' (not found)')});
+      scanLog = scanLog.slice(0,8);
+    }
+    renderScan();
+  }
+  function renderScan(){
+    $('#scanLog').innerHTML = scanLog.length ? scanLog.map(l => `<li><b>${l.t}</b>${esc(l.m)}</li>`).join('') : '<li>No scans yet.</li>';
+    if (!scanQ){ $('#scanRes').innerHTML = '<div class="empty">Scan a barcode or pick a sample SKU above.</div>'; return; }
+    const ms = items.filter(i => i.sku.toLowerCase() === scanQ.toLowerCase());
+    $('#scanRes').innerHTML = ms.length ? ms.map(i => {
+      const s = status(i);
+      return `<div class="alert-row"><div><b>${esc(i.name)}</b> <span class="tag ${s.c}">${s.l}</span><small>${esc(i.sku)} · ${esc(i.br)} · ${fmt(i.qty)} in stock · ETB ${fmt(i.price)}</small></div><div class="rowact"><button class="sbtn primary" data-perm="adjust" data-act="scanIn" data-id="${i.id}">Receive +</button><button class="sbtn" data-perm="adjust" data-act="scanOut" data-id="${i.id}">Issue −</button></div></div>`;
+    }).join('') : `<div class="empty">No item found for "${esc(scanQ)}".</div>`;
+  }
+
+  /* Operations */
+  let docks = [
+    {n:1, plate:'', driver:'', type:'', since:''},
+    {n:2, plate:'AA-2-33871', driver:'Girma H.', type:'in',  since:'09:05'},
+    {n:3, plate:'AA-3-90214', driver:'Mulu K.',  type:'out', since:'10:20'},
+    {n:4, plate:'', driver:'', type:'', since:''}
+  ];
+  let incidents = [{id:1, door:3, type:'Damaged goods', desc:'Two sugar bags torn during loading', time:'10:32', open:true}];
+  let incNext = 2;
+  let visits = [{t:'08:55', m:'AA-1-20431 · Tadesse M. · Door 1 · in 08:12 · out 08:55'}];
+  let prod = [
+    {id:1, name:'Pasta 500g · batch 214',       line:'Line A', item:4, units:600, pct:60, status:'Running'},
+    {id:2, name:'Fruit juice 1L · batch 87',    line:'Line B', item:6, units:400, pct:30, status:'Running'},
+    {id:3, name:'Laundry soap 1kg · batch 52',  line:'Line C', item:7, units:300, pct:0,  status:'Queued'}
+  ];
+  function renderOps(){
+    $('#dockGrid').innerHTML = docks.map(d => d.plate
+      ? `<div class="dock busy"><h5>Door ${d.n}</h5><span class="tag ${d.type === 'in' ? 't-grn' : 't-yel'}">${d.type === 'in' ? '⬇ Inbound' : '⬆ Outbound'}</span><div class="dk-plate">${esc(d.plate)}</div><small>${esc(d.driver)} · since ${d.since}</small><button class="sbtn" data-perm="dock" data-act="dockOut" data-door="${d.n}">Check out &amp; sign-out sheet</button></div>`
+      : `<div class="dock"><h5>Door ${d.n}</h5><span class="tag tag-gray">Free</span><div class="dk-plate">—</div><small>Available</small></div>`).join('');
+    const cur = $('#kDoor').value, free = docks.filter(d => !d.plate);
+    $('#kDoor').innerHTML = free.length ? free.map(d => `<option value="${d.n}">Door ${d.n}</option>`).join('') : '<option value="">No free door</option>';
+    if (cur && $('#kDoor').querySelector(`option[value="${cur}"]`)) $('#kDoor').value = cur;
+    $('#incList').innerHTML = incidents.length ? incidents.map(i =>
+      `<li><b>Door ${i.door} · ${esc(i.type)} · ${i.time}</b>${esc(i.desc)}<br>${i.open ? `<button class="sbtn danger" data-perm="dock" data-act="incRes" data-id="${i.id}">Mark resolved</button>` : '<span class="tag t-grn">Resolved</span>'}</li>`).join('') : '<li>No incidents.</li>';
+    $('#visitLog').innerHTML = visits.map(v => `<li><b>${v.t}</b>${esc(v.m)}</li>`).join('');
+    $('#prodList').innerHTML = prod.map(p => {
+      const it = find(p.item), done = p.status === 'Done';
+      return `<div class="prod"><div class="prod-top"><b>${esc(p.name)}</b><span class="tag ${done ? 't-grn' : p.status === 'Running' ? 't-yel' : 'tag-gray'}">${p.status}</span></div>
+        <small>${p.line} · ${fmt(p.units)} units → ${it ? esc(it.name) + ' · ' + esc(it.br) : '(removed)'}</small>
+        <div class="bar"><i style="width:${p.pct}%"></i></div>
+        <div class="prod-bot"><span>${p.pct}%</span>${done ? '<span>✓ Added to stock</span>' : `<button class="sbtn" data-perm="dock" data-act="prodAdv" data-pid="${p.id}">${p.status === 'Queued' ? 'Start batch' : 'Advance +25%'}</button>`}</div></div>`;
+    }).join('');
+  }
+  function checkIn(){
+    if (!guard('dock')) return;
+    const plate = $('#kPlate').value.trim().toUpperCase(), driver = $('#kDriver').value.trim(), door = Number($('#kDoor').value);
+    if (!plate || !driver){ toast('Enter the truck plate and driver name'); return; }
+    if (!door){ toast('No free dock door'); return; }
+    Object.assign(docks.find(x => x.n === door), {plate, driver, type:$('#kType').value, since:nowT()});
+    $('#kPlate').value = ''; $('#kDriver').value = '';
+    addLog('Driver ' + driver + ' checked in at Door ' + door); toast('Checked in at Door ' + door); render();
+  }
+  function dockOut(n){
+    const d = docks.find(x => x.n === n); if (!d || !d.plate) return;
+    const out = nowT(), snap = {...d};
+    visits.unshift({t:out, m:snap.plate + ' · ' + snap.driver + ' · Door ' + n + ' · in ' + snap.since + ' · out ' + out});
+    visits = visits.slice(0,6);
+    Object.assign(d, {plate:'', driver:'', type:'', since:''});
+    addLog('Driver ' + snap.driver + ' checked out of Door ' + n); toast('Door ' + n + ' is now free');
+    printDoc('Driver sign-out sheet',
+      '<h2>Driver sign-out sheet</h2><p>' + esc(todayStr()) + '</p><table>' +
+      '<tr><th>Truck plate</th><td>' + esc(snap.plate) + '</td></tr><tr><th>Driver</th><td>' + esc(snap.driver) + '</td></tr>' +
+      '<tr><th>Dock door</th><td>Door ' + n + '</td></tr><tr><th>Direction</th><td>' + (snap.type === 'in' ? 'Inbound delivery' : 'Outbound pickup') + '</td></tr>' +
+      '<tr><th>Checked in</th><td>' + snap.since + '</td></tr><tr><th>Checked out</th><td>' + out + '</td></tr></table>' +
+      '<div class="sig"><div>Driver signature</div><div>Warehouse supervisor</div></div>' +
+      '<p class="fine">Sample document generated by the StockHub demo.</p>');
+    render();
+  }
+  function reportIncident(){
+    if (!guard('dock')) return;
+    const desc = $('#iDesc').value.trim();
+    if (!desc){ toast('Please describe the incident'); $('#iDesc').focus(); return; }
+    incidents.unshift({id:incNext++, door:Number($('#iDoor').value), type:$('#iType').value, desc, time:nowT(), open:true});
+    $('#iDesc').value = '';
+    addLog('Incident reported at Door ' + $('#iDoor').value); toast('Incident reported'); render();
+  }
+  function advanceProd(id){
+    const p = prod.find(x => x.id === id); if (!p || p.status === 'Done') return;
+    p.pct = Math.min(100, p.pct + 25);
+    p.status = p.pct >= 100 ? 'Done' : 'Running';
+    if (p.status === 'Done'){
+      const it = find(p.item);
+      if (it) it.qty += p.units;
+      addLog('Production complete: +' + p.units + ' × ' + (it ? it.name : p.name)); toast('Batch complete. Stock updated');
+    } else addLog(p.name + ' at ' + p.pct + '%');
+  }
+
+  /* Stock count */
+  let counts = {};
+  const varTxt = v => v === null ? '—' : v === 0 ? '✓ match' : (v > 0 ? '+' : '') + v;
+  const varCls = v => v === null || v === 0 ? '' : v > 0 ? 'var-pos' : 'var-neg';
+  function renderCount(){
+    const b = $('#cBr').value || BRANCHES[0];
+    $('#cntBody').innerHTML = items.filter(i => i.br === b).map(i => {
+      const c = counts[i.id], v = (c === undefined || c === '') ? null : parseInt(c) - i.qty;
+      return `<tr><td>${esc(i.sku)}</td><td><b>${esc(i.name)}</b></td><td>${fmt(i.qty)}</td><td><input class="in" type="number" min="0" style="width:100px" data-cid="${i.id}" value="${c === undefined ? '' : esc(c)}"></td><td id="var-${i.id}" class="${varCls(v)}">${varTxt(v)}</td></tr>`;
+    }).join('');
+  }
+  function applyCount(){
+    if (!guard('count')) return;
+    const b = $('#cBr').value; let n = 0;
+    items.filter(i => i.br === b).forEach(i => {
+      const c = counts[i.id]; if (c === undefined || c === '') return;
+      const q = parseInt(c); if (isNaN(q)) return;
+      if (q !== i.qty){ addLog('Count adjusted ' + i.name + ': ' + i.qty + ' → ' + q); i.qty = q; n++; }
+      delete counts[i.id];
+    });
+    toast(n ? n + ' adjustment' + (n === 1 ? '' : 's') + ' applied' : 'No variances to apply');
+    render();
+  }
+
+  /* ---- Round 3: contacts, history, ABC, expiry, import ---- */
+  const PHONES = ['+251 911 220 134','+251 922 410 778','+251 933 105 662','+251 944 318 509','+251 955 872 031','+251 966 140 297','+251 977 604 815'];
+  let suppliers = [];
+  orders.forEach(o => { if (!suppliers.find(x => x.n === o.party)) suppliers.push({n:o.party, t:o.type === 'in' ? 'Supplier' : 'Customer', p:PHONES[suppliers.length % PHONES.length]}); });
+  function renderSup(){
+    $('#supBody').innerHTML = suppliers.map(x => {
+      const os = orders.filter(o => o.party === x.n);
+      return `<tr><td><b>${esc(x.n)}</b></td><td><span class="tag ${x.t === 'Supplier' ? 't-grn' : 't-yel'}">${x.t}</span></td><td>${esc(x.p || '—')}</td><td>${os.length}</td><td>ETB ${fmt(os.reduce((a,o) => a + orderTotal(o), 0))}</td></tr>`;
+    }).join('');
+    $('#partyList').innerHTML = suppliers.map(x => `<option value="${esc(x.n)}">`).join('');
+  }
+  function renderHist(){
+    const q = $('#hSearch').value.trim().toLowerCase();
+    const rows = fullLog.filter(l => !q || l.m.toLowerCase().includes(q) || l.r.toLowerCase().includes(q)).slice(0,200);
+    $('#histBody').innerHTML = rows.map(l => `<tr><td>${l.t}</td><td>${esc(l.r)}</td><td>${esc(l.m)}</td></tr>`).join('');
+    $('#histEmpty').classList.toggle('hidden', rows.length > 0);
+  }
+  function abcCard(){
+    const val = i => i.qty * i.price, list = items.slice().sort((a,b) => val(b) - val(a));
+    const total = list.reduce((a,i) => a + val(i), 0) || 1;
+    const g = {A:{n:0,v:0}, B:{n:0,v:0}, C:{n:0,v:0}}; let cum = 0;
+    list.forEach(i => { const k = cum / total < .8 ? 'A' : cum / total < .95 ? 'B' : 'C'; g[k].n++; g[k].v += val(i); cum += val(i); });
+    return barCard('ABC analysis (share of stock value)', [['A',''],['B','y'],['C','r']].map(([k,c]) => ({l:k + ' · ' + g[k].n + ' items', c, v:g[k].v, f:Math.round(g[k].v / total * 100) + '%'})));
+  }
+  function expCard(){
+    const rows = items.filter(i => i.exp && i.qty > 0).map(i => ({i, d:daysTo(i.exp)})).sort((a,b) => a.d - b.d).slice(0,5)
+      .map(({i,d}) => ({l:i.name + ' · ' + i.br, c:d <= 30 ? 'r' : d <= 90 ? 'y' : '', v:Math.max(1, 365 - d), f:d < 0 ? 'Expired' : d + 'd'}));
+    return barCard('Expiry watch (days left)', rows);
+  }
+  function csvCell(v){ return '"' + String(v).replace(/"/g,'""') + '"'; }
+  function importCsv(text){
+    const lines = text.split(/\r?\n/).filter(l => l.trim()); let n = 0;
+    lines.forEach((l, k) => {
+      const c = l.split(',').map(x => x.trim().replace(/^"|"$/g,''));
+      if (k === 0 && /sku/i.test(c[0])) return;
+      if (!c[1]) return;
+      items.push({id:nextId++, sku:c[0] || 'NEW-' + nextId, name:c[1], cat:CATS.includes(c[2]) ? c[2] : CATS[0], br:BRANCHES.includes(c[3]) ? c[3] : BRANCHES[0],
+        qty:Math.max(0, parseInt(c[4]) || 0), re:Math.max(0, parseInt(c[5]) || 0), price:Math.max(0, parseFloat(c[6]) || 0), exp:/^\d{4}-\d{2}-\d{2}$/.test(c[7] || '') ? c[7] : ''});
+      n++;
+    });
+    if (n) addLog('Imported ' + n + ' items from CSV');
+    toast(n ? 'Imported ' + n + ' items' : 'No valid rows found. Columns: sku,name,category,branch,qty,reorder,price,expiry');
+    render();
+  }
+  $('#impBtn').addEventListener('click', () => { if (guard('add')) $('#impFile').click(); });
+  $('#impFile').addEventListener('change', e => {
+    const f = e.target.files[0]; if (!f) return;
+    const r = new FileReader(); r.onload = () => importCsv(String(r.result)); r.readAsText(f); e.target.value = '';
+  });
+  $('#hSearch').addEventListener('input', renderHist);
+  $('#hExport').addEventListener('click', () => {
+    const lines = ['"Time","Role","Event"'].concat(fullLog.map(l => [l.t, l.r, l.m].map(csvCell).join(',')));
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([lines.join('\n')], {type:'text/csv'})); a.download = 'history.csv';
+    document.body.appendChild(a); a.click(); a.remove(); toast('Exported ' + fullLog.length + ' events');
+  });
+  $('#sBtn').addEventListener('click', () => {
+    if (!guard('suppliers')) return;
+    const n = $('#sName').value.trim();
+    if (!n){ toast('Please enter a name'); return; }
+    if (suppliers.find(x => x.n.toLowerCase() === n.toLowerCase())){ toast('That contact already exists'); return; }
+    suppliers.push({n, t:$('#sType').value, p:$('#sPhone').value.trim()});
+    $('#sName').value = ''; $('#sPhone').value = ''; addLog('Added contact ' + n); toast('Contact added'); render();
+  });
+  $$('th[data-sort]').forEach(th => th.addEventListener('click', () => {
+    const k = th.dataset.sort; sortD = sortK === k ? -sortD : 1; sortK = k;
+    $$('th[data-sort]').forEach(x => x.classList.remove('asc','desc'));
+    th.classList.add(sortD === 1 ? 'asc' : 'desc'); render();
+  }));
+  $('.dm').addEventListener('click', e => {
+    const btn = e.target.closest('[data-act="draftPO"]'); if (!btn) return;
+    if (!guard('orders')) return;
+    const i = find(btn.dataset.id); if (!i) return;
+    const prev = orders.slice().reverse().find(o => o.type === 'in' && o.item === i.id);
+    const sup = prev ? prev.party : (suppliers.find(x => x.t === 'Supplier') || {n:'Unassigned supplier'}).n;
+    const q = Math.max(i.re * 3 - i.qty, 20), id = 'PO-' + (poNext++);
+    orders.push({id, type:'in', party:sup, item:i.id, qty:q, date:dt(2), door:1, status:'Pending'});
+    addLog('Drafted ' + id + ': ' + q + ' × ' + i.name + ' from ' + sup); toast(id + ' drafted. See the Orders tab'); render();
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === '/' && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName) && !$('#viewInv').classList.contains('hidden')){ e.preventDefault(); $('#fSearch').focus(); }
+  });
+
+  /* ---- Render all ---- */
+  function render(){
+    renderKpis(); renderInv(); renderAlerts(); renderOrders();
+    renderTransfers(); renderSched(); renderReports(); renderUsers(); renderScan(); renderOps(); renderCount(); renderSup(); renderHist();
+    applyPerms(); updateSync();
+  }
+
+  /* ---- Events ---- */
+  $('.dm').addEventListener('click', e => {
+    const btn = e.target.closest('[data-act]'); if (!btn) return;
+    const act = btn.dataset.act;
+    const i = btn.dataset.id !== undefined ? find(btn.dataset.id) : null;
+    if (act === 'inc' || act === 'dec'){
+      if (!guard('adjust') || !i) return;
+      if (act === 'inc'){ i.qty++; addLog(i.name + ' +1 (now ' + i.qty + ')'); }
+      else if (i.qty > 0){ i.qty--; addLog(i.name + ' −1 (now ' + i.qty + ')'); }
+    } else if (act === 'edit'){
+      if (!guard('edit') || !i) return; openModal(i); return;
+    } else if (act === 'del'){
+      if (!guard('del') || !i) return;
+      if (!confirm('Delete "' + i.name + '"?')) return;
+      items = items.filter(x => x.id !== i.id); addLog('Deleted ' + i.name); toast('Item deleted');
+    } else if (act === 'label'){
+      if (i) openLabel(i); return;
+    } else if (act === 'restock'){
+      if (!guard('adjust') || !i) return;
+      const add = Math.max(i.re * 2, 20); i.qty += add; addLog('Restocked ' + i.name + ' +' + add); toast('Restocked ' + i.name);
+    } else if (act === 'writeoff'){
+      if (!guard('adjust') || !i) return;
+      addLog('Wrote off ' + i.qty + ' × ' + i.name); i.qty = 0; i.exp = ''; toast('Stock written off');
+    } else if (act === 'ordDone'){
+      if (!guard('orders')) return;
+      const o = findOrder(btn.dataset.oid); if (!o) return; completeOrder(o);
+    } else if (act === 'ordDel'){
+      if (!guard('orders')) return;
+      const o = findOrder(btn.dataset.oid); if (!o) return;
+      orders = orders.filter(x => x !== o); addLog('Cancelled order ' + o.id); toast('Order cancelled');
+    } else if (act === 'shift'){
+      if (!guard('sched')) return;
+      const u = Number(btn.dataset.u), d = Number(btn.dataset.d);
+      shifts[u][d] = SHIFT_SEQ[(SHIFT_SEQ.indexOf(shifts[u][d]) + 1) % SHIFT_SEQ.length];
+      addLog('Roster: ' + users[u].n + ' → ' + shifts[u][d]);
+    } else if (act === 'uActive'){
+      if (!guard('users')) return;
+      const u = users[Number(btn.dataset.id)]; u.a = !u.a; addLog((u.a ? 'Activated ' : 'Deactivated ') + u.n);
+    } else return;
+    render();
+  });
+  $('.dm').addEventListener('change', e => {
+    const sel = e.target.closest('select[data-uid]'); if (!sel) return;
+    if (!guard('users')){ renderUsers(); return; }
+    const u = users[Number(sel.dataset.uid)]; u.r = sel.value;
+    addLog(u.n + ' is now ' + u.r); toast('Role updated'); render();
+  });
+
+  const opts = arr => arr.map(v => `<option>${v}</option>`).join('');
+  $('#fBr').insertAdjacentHTML('beforeend', opts(BRANCHES));
+  $('#fCat').insertAdjacentHTML('beforeend', opts(CATS));
+  $('#mCat').innerHTML = opts(CATS);
+  $('#mBr').innerHTML = opts(BRANCHES);
+  $('#tTo').innerHTML = opts(BRANCHES);
+
+  ['fSearch','fBr','fCat','fStatus','oFilter','oStatus'].forEach(id => $('#' + id).addEventListener('input', render));
+  $('#addBtn').addEventListener('click', () => { if (guard('add')) openModal(); });
+  $('#exportBtn').addEventListener('click', exportCsv);
+  $('#mSave').addEventListener('click', saveModal);
+  $('#mCancel').addEventListener('click', () => $('#modalBack').classList.remove('open'));
+  $('#newOrderBtn').addEventListener('click', () => { if (guard('orders')) openOrderModal(); });
+  $('#oSave').addEventListener('click', saveOrder);
+  $('#oCancel').addEventListener('click', () => $('#ordBack').classList.remove('open'));
+  $('#tBtn').addEventListener('click', doTransfer);
+  $('#lblClose').addEventListener('click', () => $('#lblBack').classList.remove('open'));
+  $('#lblPrint').addEventListener('click', printLabel);
+  $$('.modal-back').forEach(m => m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); }));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') $$('.modal-back').forEach(m => m.classList.remove('open')); });
+
+  $('#roleSel').addEventListener('change', e => { role = e.target.value; applyPerms(); toast('Now viewing as ' + role); });
+  $('#langSel').addEventListener('change', e => { lang = e.target.value; applyLang(); });
+  $('#offSw').addEventListener('change', e => {
+    offline = e.target.checked;
+    if (offline) toast('Offline mode on. Changes will be queued');
+    else { toast(pending ? 'Back online · ' + pending + ' change' + (pending === 1 ? '' : 's') + ' synced' : 'Back online'); pending = 0; }
+    updateSync();
+  });
+
+  const VIEWS = {inv:'viewInv', alerts:'viewAlerts', orders:'viewOrders', transfers:'viewTransfers', sched:'viewSched', reports:'viewReports', users:'viewUsers', scan:'viewScan', ops:'viewOps', count:'viewCount', sup:'viewSup', hist:'viewHist'};
+  $$('#dmTabs button').forEach(b => b.addEventListener('click', () => {
+    $$('#dmTabs button').forEach(x => x.classList.toggle('on', x === b));
+    Object.entries(VIEWS).forEach(([k, id]) => $('#' + id).classList.toggle('hidden', k !== b.dataset.view));
+  }));
+
+  $('#cBr').innerHTML = opts(BRANCHES);
+  $('#scanChips').innerHTML = items.slice(0,5).map(i => `<button class="chip-btn" data-act="scanPick" data-sku="${esc(i.sku)}">${esc(i.sku)}</button>`).join('');
+  $('#cBr').addEventListener('input', render);
+  $('#cApply').addEventListener('click', applyCount);
+  $('#kBtn').addEventListener('click', checkIn);
+  $('#iBtn').addEventListener('click', reportIncident);
+  $('#scanBtn').addEventListener('click', doScan);
+  $('#scanIn').addEventListener('keydown', e => { if (e.key === 'Enter') doScan(); });
+  $('.dm').addEventListener('input', e => {
+    const t = e.target;
+    if (!t.matches || !t.matches('input[data-cid]')) return;
+    const id = Number(t.dataset.cid), i = find(id); if (!i) return;
+    counts[id] = t.value;
+    const v = t.value === '' ? null : parseInt(t.value) - i.qty, c = $('#var-' + id);
+    c.textContent = varTxt(v); c.className = varCls(v);
+  });
+  $('.dm').addEventListener('click', e => {
+    const btn = e.target.closest('[data-act]'); if (!btn) return;
+    const act = btn.dataset.act;
+    if (act === 'scanPick'){ $('#scanIn').value = btn.dataset.sku; doScan(); }
+    else if (act === 'scanIn' || act === 'scanOut'){
+      if (!guard('adjust')) return;
+      const i = find(btn.dataset.id); if (!i) return;
+      const q = Math.max(1, parseInt($('#scanQty').value) || 1);
+      if (act === 'scanOut' && q > i.qty){ toast('Only ' + i.qty + ' in stock'); return; }
+      i.qty += act === 'scanIn' ? q : -q;
+      addLog((act === 'scanIn' ? 'Scan receive +' : 'Scan issue −') + q + ' × ' + i.name); toast('Stock updated'); render();
+    }
+    else if (act === 'dockOut'){ if (guard('dock')) dockOut(Number(btn.dataset.door)); }
+    else if (act === 'prodAdv'){ if (guard('dock')){ advanceProd(Number(btn.dataset.pid)); render(); } }
+    else if (act === 'incRes'){
+      if (!guard('dock')) return;
+      const inc = incidents.find(x => x.id === Number(btn.dataset.id));
+      if (inc){ inc.open = false; addLog('Incident at Door ' + inc.door + ' resolved'); toast('Incident resolved'); render(); }
+    }
+    else if (act === 'ordDoc'){ const o = findOrder(btn.dataset.oid); if (o) orderDoc(o); }
+  });
+
+  applyLang();
+  render();
+})();
+</script>
+</body>
+</html>
