@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
 <title>StockHub Ethiopia | Inventory Management for Ethiopian Businesses</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Ethiopic:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=Noto+Sans+Ethiopic:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --green:#0b7a4b; --green-dark:#075a37; --green-soft:#e6f4ec;
@@ -280,6 +281,127 @@ textarea.in{resize:vertical;font-family:inherit}
 /* ===== Round 3 ===== */
 th[data-sort]{cursor:pointer;user-select:none}th[data-sort]:hover{color:var(--green)}
 th.asc::after{content:" ▲";font-size:9px}th.desc::after{content:" ▼";font-size:9px}
+
+/* ================= REDESIGN LAYER ================= */
+:root{--bg:#fbfaf6;--bg-alt:#f3f1e8;--surface:#fff;--sunk:#f6f5ef;--ink:#12201a;--muted:#5a685f;--line:#e3e1d7;
+--green:#0a6e45;--green-dark:#064b2f;--green-soft:#e2f1e8;--green-ink:#064b2f;--on-green:#fff;
+--yellow:#e8a900;--red:#c8312b;--red-soft:#fbe6e4;--yel-soft:#fdf1c9;--yel-ink:#7a5800;--side:#0c2419;--side-ink:#b5cfc2;
+--shadow:0 1px 2px rgba(18,32,26,.05),0 14px 34px -14px rgba(18,32,26,.18);
+--ring:0 0 0 3px color-mix(in srgb,var(--green) 30%,transparent);
+--serif:'Instrument Serif','Noto Sans Ethiopic',Georgia,serif;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1410;--bg-alt:#0e1914;--surface:#13201a;--sunk:#0f1914;--ink:#e9f0eb;--muted:#9aaba1;--line:#243429;--green:#3cb882;--green-dark:#0e3b28;--green-soft:#173a2a;--green-ink:#8fe3bb;--on-green:#04140c;--yellow:#f0b429;--red:#ef6a63;--red-soft:#3a1a19;--yel-soft:#3a2f10;--yel-ink:#f0c860;--side:#08130e;--side-ink:#a4bfb1;--shadow:0 1px 2px rgba(0,0,0,.4),0 16px 40px -16px rgba(0,0,0,.6);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0b1410;--bg-alt:#0e1914;--surface:#13201a;--sunk:#0f1914;--ink:#e9f0eb;--muted:#9aaba1;--line:#243429;--green:#3cb882;--green-dark:#0e3b28;--green-soft:#173a2a;--green-ink:#8fe3bb;--on-green:#04140c;--yellow:#f0b429;--red:#ef6a63;--red-soft:#3a1a19;--yel-soft:#3a2f10;--yel-ink:#f0c860;--side:#08130e;--side-ink:#a4bfb1;--shadow:0 1px 2px rgba(0,0,0,.4),0 16px 40px -16px rgba(0,0,0,.6);color-scheme:dark}
+:root[data-theme="light"]{color-scheme:light}
+html{scroll-padding-top:calc(88px + env(safe-area-inset-top,0px))}
+body{background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;font-feature-settings:'cv11','ss03'}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+table,.kpi b,.qty b,.price,.bar-row b{font-variant-numeric:tabular-nums}
+:focus-visible{outline:none;box-shadow:var(--ring)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+
+/* type */
+h1,h2{font-family:var(--serif);font-weight:400;letter-spacing:-.015em;line-height:1.04}
+h2{font-size:clamp(36px,4.8vw,56px);margin-bottom:16px}
+h3{font-weight:650}
+.hero h1{font-size:clamp(46px,6.6vw,84px);font-weight:400;margin-bottom:22px}
+.hero h1 span{font-style:italic;color:var(--green)}
+.lead,.hero p{color:var(--muted);font-size:clamp(16px,1.6vw,19px);line-height:1.65}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:12px;letter-spacing:.14em;margin-bottom:18px}
+.eyebrow::before{content:"";width:22px;height:2px;background:currentColor;border-radius:2px}
+section{padding:clamp(64px,9vw,116px) 0}
+.alt{background:var(--bg-alt)}
+
+/* surfaces */
+.btn-ghost,.badge,.app,.card,.chip,.toggle,.plan,.step,.dm,.in,.qty button,.rowact button,.modal,.sbtn,.day,.dock,.prod,.chip-btn,.lang{background:var(--surface)}
+.lang{color:var(--ink);cursor:pointer;font-family:inherit}
+.btn{border-radius:10px;padding:13px 24px;letter-spacing:-.005em}
+.btn-primary,.sbtn.primary,.sbtn.primary:hover,.toggle button.on,.logo-mark,.mbtn,.step::before,.list li::before{color:var(--on-green)}
+.btn-primary:hover,.sbtn.primary:hover{background:var(--green);filter:brightness(1.1);transform:translateY(-1px)}
+.btn-ghost{border-color:var(--line)}
+header{background:color-mix(in srgb,var(--bg) 86%,transparent);top:env(safe-area-inset-top,0px);border-color:var(--line)}
+.nav ul a{position:relative;padding:6px 0}
+.nav ul a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--green);transform:scaleX(0);transform-origin:left;transition:.25s}
+.nav ul a:hover::after{transform:scaleX(1)}
+.hero{background:radial-gradient(900px 480px at 92% -10%,var(--green-soft),transparent 70%),radial-gradient(600px 300px at -5% 110%,var(--yel-soft),transparent 70%),var(--bg);padding:clamp(48px,8vw,104px) 0 clamp(40px,6vw,72px)}
+.badge{font-weight:550;color:var(--muted)}
+.app{border-radius:20px;box-shadow:var(--shadow)}
+.app-top{background:var(--sunk)}
+.card{border-radius:18px;padding:28px}
+.card:hover{transform:translateY(-2px);border-color:var(--green);box-shadow:var(--shadow)}
+.ico{border-radius:12px;width:46px;height:46px}
+.problem .ico{background:var(--red-soft)}
+.chip{font-weight:550}
+.plan{border-radius:20px;padding:34px}
+.plan.pop{background:var(--green-dark);color:#fff;border-color:var(--green-dark)}
+.plan.pop ul{color:#cfe6d9}.plan.pop li::before{color:var(--yellow)}.plan.pop .price small{color:#a9cdb9}
+.plan.pop::before{background:var(--yellow);color:#2a2000}
+.plan.pop .btn-primary{background:#fff;color:var(--green-dark)}
+.price{font-family:var(--serif);font-weight:400;font-size:46px}
+.local{background:#052f1e}
+.cta{background:linear-gradient(135deg,#064b2f,#0a6e45);border-radius:28px;color:#fff}
+.cta h2{color:#fff}
+form.demo input,form.demo select{background:var(--surface);color:var(--ink)}
+.step{border-radius:18px}
+
+/* ---------- Demo: app shell ---------- */
+#dashboard .container{width:min(1280px,100% - 32px)}
+.dm{display:grid;grid-template-columns:248px minmax(0,1fr) auto;grid-template-areas:"nav sub act" "nav ban ban" "nav body body";border-radius:22px;margin-top:48px;border-color:var(--line);box-shadow:var(--shadow)}
+.dm-bar{display:contents}
+.dm-tabs{grid-area:nav;flex-direction:column;gap:2px;padding:20px 12px 24px;background:var(--side);overflow:visible;max-width:none;align-content:start}
+.dm-tabs::before{content:"▦  StockHub · Bole";color:#fff;font-weight:700;font-size:15px;letter-spacing:-.01em;padding:4px 12px 14px}
+.dm-tabs .grp{font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6f9482;padding:18px 12px 6px}
+.dm-tabs button{display:flex;align-items:center;gap:10px;text-align:left;font-size:14px;font-weight:550;color:var(--side-ink);padding:9px 12px;border-radius:10px}
+.dm-tabs button:hover{background:rgba(255,255,255,.07);color:#fff}
+.dm-tabs button.on{background:rgba(255,255,255,.11);color:#fff;box-shadow:inset 3px 0 0 var(--yellow)}
+.dm-tabs .count{margin-left:auto}
+.dm-sub{grid-area:sub;padding:14px 24px;background:var(--surface);gap:14px 22px}
+.dm-actions{grid-area:act;align-items:center;padding:0 24px;border-bottom:1px solid var(--line);background:var(--surface)}
+.offline-banner{grid-area:ban;background:var(--yel-soft);color:var(--yel-ink);border-color:var(--line)}
+.dm-body{grid-area:body;padding:26px;background:var(--sunk);min-width:0}
+.sync{background:var(--green-soft);color:var(--green-ink)}.sync.off{background:var(--yel-soft);color:var(--yel-ink)}
+.switch input{background:var(--line)}.switch input:checked{background:var(--green)}
+.dm-kpis{gap:14px;margin-bottom:22px}
+.dm-kpis .kpi{background:var(--surface);border-radius:16px;padding:18px 20px}
+.dm-kpis .kpi span{font-size:11px;font-weight:650;letter-spacing:.08em;text-transform:uppercase}
+.dm-kpis .kpi b{font-size:30px;letter-spacing:-.02em;margin-top:4px}
+.in{border-radius:10px;padding:9px 13px}
+.in:focus{outline:none;box-shadow:var(--ring)}
+.sbtn{border-radius:10px;padding:9px 15px}
+.tbl-wrap{background:var(--surface);border-radius:16px;max-height:620px;overflow:auto}
+.tbl-wrap th{position:sticky;top:0;z-index:1;background:var(--sunk);padding:12px 14px;font-size:11px}
+.tbl-wrap td{padding:13px 14px;font-size:13.5px}
+.tbl-wrap tbody tr:hover td{background:var(--sunk)}
+.tbl-wrap tbody tr:last-child td{border-bottom:0}
+.tag{display:inline-flex;align-items:center;gap:6px;padding:3px 10px 3px 8px}
+.tag::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.t-red{background:var(--red-soft);color:var(--red)}.t-yel{background:var(--yel-soft);color:var(--yel-ink)}
+.t-grn{background:var(--green-soft);color:var(--green-ink)}.tag-gray{background:var(--sunk);color:var(--muted)}
+.qty{background:var(--sunk);border-radius:999px;padding:2px}
+.qty button{border-radius:50%;border-color:transparent}
+.rowact button{border-radius:8px}
+.dm-log,.panel,.rep,.alert-row,.dock,.prod{background:var(--surface);border-radius:16px}
+.dm-log li{border-color:var(--green)}
+.alert-row,.prod{padding:16px 18px}
+.dock.busy{background:var(--green-soft);border-color:var(--green)}
+.day{border-radius:14px}.day.today h5{color:var(--green-ink)}.ev.out{background:var(--yel-soft)}
+.shift.AM{background:var(--green-soft);color:var(--green-ink)}.shift.PM{background:var(--yel-soft);color:var(--yel-ink)}.shift.Off{background:var(--sunk);color:var(--muted)}
+.bar{background:var(--sunk)}
+.pallet{background:#fff;color:#000}
+.screen{background:#fff;color:#12201a}
+.modal-back{backdrop-filter:blur(5px)}
+.modal{border-radius:22px;padding:30px;box-shadow:0 30px 80px -20px rgba(0,0,0,.45)}
+.toast{bottom:calc(24px + env(safe-area-inset-bottom,0px));border:1px solid rgba(255,255,255,.12)}
+.empty{padding:48px 24px}
+
+@media(max-width:960px){
+  .dm{grid-template-columns:minmax(0,1fr);grid-template-areas:"nav" "sub" "act" "ban" "body";border-radius:18px}
+  .dm-tabs{flex-direction:row;overflow-x:auto;padding:10px 12px;gap:4px}
+  .dm-tabs::before,.dm-tabs .grp{display:none}
+  .dm-tabs button{white-space:nowrap}
+  .dm-actions{padding:12px 24px;flex-wrap:wrap}
+  .dm-body{padding:16px}
+}
 </style>
 </head>
 <body>
@@ -297,6 +419,7 @@ th.asc::after{content:" ▲";font-size:9px}th.desc::after{content:" ▼";font-si
     </ul>
     <div class="nav-right">
       <span class="lang">EN · አማ · Oromoo</span>
+      <button class="lang" id="themeBtn" type="button" aria-label="Toggle light or dark theme">◐</button>
       <a href="#demo" class="btn btn-primary" style="padding:9px 18px">Book a demo</a>
     </div>
   </div>
@@ -419,19 +542,23 @@ th.asc::after{content:" ▲";font-size:9px}th.desc::after{content:" ▼";font-si
 
     <div class="dm">
       <div class="dm-bar">
-        <div class="dm-tabs" id="dmTabs">
+        <div class="dm-tabs" id="dmTabs" aria-label="Sections">
+          <span class="grp">Stock</span>
           <button class="on" data-view="inv">📦 <span data-i18n="tInv">Inventory</span></button>
           <button data-view="alerts">🔔 <span data-i18n="tAlerts">Alerts</span> <span class="count" id="alertCount">0</span></button>
+          <button data-view="scan">📷 <span data-i18n="tScan">Scan</span></button>
+          <button data-view="count">🧮 <span data-i18n="tCount">Stock count</span></button>
+          <span class="grp">Flow</span>
           <button data-view="orders">🧾 <span data-i18n="tOrders">Orders</span></button>
           <button data-view="transfers">🔁 <span data-i18n="tTransfers">Transfers</span></button>
-          <button data-view="sched">📅 <span data-i18n="tSched">Schedule</span></button>
-          <button data-view="reports">📊 <span data-i18n="tReports">Reports</span></button>
-          <button data-view="users">👥 <span data-i18n="tUsers">Users</span></button>
-          <button data-view="scan">📷 <span data-i18n="tScan">Scan</span></button>
           <button data-view="ops">🚚 <span data-i18n="tOps">Operations</span></button>
-          <button data-view="count">🧮 <span data-i18n="tCount">Stock count</span></button>
-          <button data-view="sup">🤝 <span data-i18n="tSup">Contacts</span></button>
+          <button data-view="sched">📅 <span data-i18n="tSched">Schedule</span></button>
+          <span class="grp">Insights</span>
+          <button data-view="reports">📊 <span data-i18n="tReports">Reports</span></button>
           <button data-view="hist">🕘 <span data-i18n="tHist">History</span></button>
+          <span class="grp">Workspace</span>
+          <button data-view="sup">🤝 <span data-i18n="tSup">Contacts</span></button>
+          <button data-view="users">👥 <span data-i18n="tUsers">Users</span></button>
         </div>
         <div class="dm-actions">
           <button class="sbtn" id="impBtn" data-perm="add">⬆ Import CSV</button><input type="file" id="impFile" accept=".csv,text/csv" class="hidden">
@@ -1665,5 +1792,15 @@ function showPricing(which){
   render();
 })();
 </script>
+<script>
+(function(){
+  var r = document.documentElement, b = document.getElementById('themeBtn');
+  try { var t = localStorage.getItem('sh-theme'); if (t) r.dataset.theme = t; } catch (e) {}
+  b.addEventListener('click', function(){
+    var dark = r.dataset.theme ? r.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+    var n = dark ? 'light' : 'dark'; r.dataset.theme = n;
+    try { localStorage.setItem('sh-theme', n); } catch (e) {}
+  });
+})();
+</script>
 </body>
-</html>
